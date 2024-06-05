@@ -41,6 +41,14 @@
 	</head>
 	<body>
 		<div class="buttons">
+			<button onclick="toggleFullscreen()">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M3 3H10V5H5V10H3V3Z" fill="black"/>
+					<path d="M21 3H14V5H19V10H21V3Z" fill="black"/>
+					<path d="M21 21H14V19H19V14H21V21Z" fill="black"/>
+					<path d="M3 21H10V19H5V14H3V21Z" fill="black"/>
+				</svg>
+			</button>		
 			<button onclick="test('20221105_233655_025.jpg')">1</button>
 			<button onclick="test('20221105_233806_915.jpg')">2</button>
 			<button onclick="test('20240212_045539_995.jpg')">3</button>
@@ -242,6 +250,7 @@
 			function onDocumentTouchEnd(event) {
 				isUserInteracting = false;
 			}
+			
 			function animate() {
 
 				requestAnimationFrame(animate);
@@ -277,6 +286,16 @@
 				isAnimating = !isAnimating;
 				if (isAnimating) {
 					animate();
+				}
+			}
+
+			function toggleFullscreen() {
+				if (!document.fullscreenElement) {
+					document.documentElement.requestFullscreen();
+				} else {
+					if (document.exitFullscreen) {
+						document.exitFullscreen();
+					}
 				}
 			}
 
