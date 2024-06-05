@@ -184,9 +184,9 @@
 			function update() {
 
 				// to animate
-				// if ( isUserInteracting === false ) {
-				// 	lon += 0.1;
-				// }
+				if ( isUserInteracting === false ) {
+					lon += 0.1;
+				}
 
 				lat = Math.max( - 85, Math.min( 85, lat ) );
 				phi = THREE.Math.degToRad( 90 - lat );
@@ -198,10 +198,8 @@
 
 				camera.lookAt( camera.target );
 
-				/*
 				// distortion
 				camera.position.copy( camera.target ).negate();
-				*/
 
 				renderer.render( scene, camera );
 
