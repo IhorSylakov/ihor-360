@@ -44,6 +44,20 @@
             font-size: 16px;
         }
 
+				.loading {
+						display: none;
+						position: fixed;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%, -50%);
+						font-size: 24px;
+						color: white;
+						background-color: rgba(0, 0, 0, 0.8);
+						padding: 20px;
+						border-radius: 10px;
+						z-index: 1000;
+				}
+
 				.dropbtn {
 						background-color: #4CAF50;
 						color: white;
@@ -97,6 +111,7 @@
 					<path d="M3 21H10V19H5V14H3V21Z" fill="black"/>
 				</svg>
 			</button>
+			<div class="loading" id="loading-indicator">Loading. Please wait...</div>
 			<div class="dropdown">
 				<button class="dropbtn">Select Panorama</button>
 				<div class="dropdown-content" id="panorama-dropdown">
@@ -121,12 +136,6 @@
         phi = 0, theta = 0,
         isAnimating = false,
         touchX = 0, touchY = 0;
-
-        function test(img) {
-            clearScene();
-            init(img);
-            animate();
-        }
 
         function clearScene() {
             if (renderer) {
@@ -156,12 +165,21 @@
             var geometry = new THREE.SphereBufferGeometry(500, 60, 40);
             geometry.scale(-1, 1, 1);
 
-            var material = new THREE.MeshBasicMaterial({
-                map: new THREE.TextureLoader().load(img)
-            });
-
-            mesh = new THREE.Mesh(geometry, material);
-            scene.add(mesh);
+						var textureLoader = new THREE.TextureLoader();
+						textureLoader.load(
+								img,
+								function (texture) {
+										var material = new THREE.MeshBasicMaterial({ map: texture });
+										mesh = new THREE.Mesh(geometry, material);
+										scene.add(mesh);
+										hideLoadingIndicator();
+								},
+								undefined,
+								function (error) {
+										console.error('An error happened.', error);
+										hideLoadingIndicator();
+								}
+						);
 
             renderer = new THREE.WebGLRenderer();
             renderer.setPixelRatio(window.devicePixelRatio);
@@ -178,6 +196,14 @@
 
             window.addEventListener('resize', onWindowResize, false);
         }
+
+				function showLoadingIndicator() {
+						document.getElementById('loading-indicator').style.display = 'block';
+				}
+
+				function hideLoadingIndicator() {
+						document.getElementById('loading-indicator').style.display = 'none';
+				}
 
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
@@ -273,6 +299,13 @@
                     document.exitFullscreen();
                 }
             }
+        }
+
+        function test(img) {
+						showLoadingIndicator();
+            clearScene();
+            init(img);
+            animate();
         }
 
 				function switchPanorama(img, index) {
