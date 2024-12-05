@@ -10,11 +10,13 @@ import { Photo } from '@/data/countryData';
 interface PhotoViewerProps {
   imageUrl: string;
   imagesList: Photo[];
+  containerHeight?: string;
 }
 
 const baseUrl = 'https://rest-api-prod-us-east-1-799789241931.s3.us-east-1.amazonaws.com/user_1866919/';
+const thumbUrl = 'https://d1unuvan7ts7ur.cloudfront.net//0x600/filters:strip_exif()/user_1866919/';
 
-const PhotoViewer: React.FC<PhotoViewerProps> = ({ imageUrl, imagesList }) => {
+const PhotoViewer: React.FC<PhotoViewerProps> = ({ imageUrl, imagesList, containerHeight = '100vh' }) => {
   const viewerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -32,7 +34,7 @@ const PhotoViewer: React.FC<PhotoViewerProps> = ({ imageUrl, imagesList }) => {
             ...photo,
             name: '',
             panorama: baseUrl + photo.panorama,
-            thumbnail: "https://d1unuvan7ts7ur.cloudfront.net//0x600/filters:strip_exif()/user_1866919/" + photo.panorama,
+            thumbnail: thumbUrl + photo.panorama,
           })),
         }],
       ],
@@ -48,7 +50,10 @@ const PhotoViewer: React.FC<PhotoViewerProps> = ({ imageUrl, imagesList }) => {
   return (
     <div
       ref={viewerRef}
-      style={{ width: '100%', height: '100vh' }}
+      style={{
+        height: containerHeight,
+        margin: '0 calc(-1 * var(--main-indents))'
+      }}
     />
   );
 };

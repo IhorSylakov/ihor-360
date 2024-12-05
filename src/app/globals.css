@@ -1,4 +1,8 @@
 :root {
+  --header-height: 50px;
+  --main-indents: 20px;
+
+  /* colors */
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -39,6 +43,14 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+main {
+  padding: 0 var(--main-indents);
+}
+
+section:not(:first-child) {
+  margin-top: 20px;
 }
 
 .psv-button.psv-move-button {

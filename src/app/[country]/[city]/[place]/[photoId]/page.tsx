@@ -1,13 +1,13 @@
 'use client';
 
 import { useParams, notFound } from 'next/navigation';
-import { data } from '@/data/countryData';
+import { media } from '@/data/countryData';
 import PhotoViewer from '@/components/PhotoViewer';
 
 export default function PhotoViewerPage() {
   const params = useParams() as { country: string; city: string; place: string; photoId: string };
 
-  const country = data.find((c) => c.name === params.country);
+  const country = media.find((c) => c.name === params.country);
   const city = country?.cities.find((ct) => ct.name === params.city);
   const place = city?.places.find((pl) => pl.id === params.place);
   const photos = place!.photos.filter((photo) => !photo.hide);
@@ -19,7 +19,11 @@ export default function PhotoViewerPage() {
 
   return (
     <div>
-      <PhotoViewer imageUrl={photo.panorama} imagesList={photos} />
+      <PhotoViewer
+        imageUrl={photo.panorama}
+        imagesList={photos}
+        containerHeight='calc(100vh - var(--header-height))'
+      />
     </div>
   );
 }

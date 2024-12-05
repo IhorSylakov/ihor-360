@@ -6,8 +6,8 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'd1unuvan7ts7ur.cloudfront.net',
-        port: '', // оставьте пустым, если порт не используется
-        pathname: '/**', // разрешить любые пути
+        port: '',
+        pathname: '/**',
       },
     ],
   },
