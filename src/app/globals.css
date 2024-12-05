@@ -56,3 +56,11 @@ section:not(:first-child) {
 .psv-button.psv-move-button {
   display: none;
 }
+
+.psv-panel-content a {
+  color: orange;
+}
+
+.psv-panel-content a:visited {
+  color: lightsalmon;
+}

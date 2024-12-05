@@ -34,9 +34,9 @@ export default function CityPage() {
               <Image
                 width={200}
                 height={100}
-                style={{ width: '100%', height: 'auto' }}
+                style={{ width: '100%', height: 'auto', aspectRatio: '2 / 1', objectFit: 'cover' }}
                 alt={`${place.name}`}
-                src={preview + place.photos[0].panorama}
+                src={place.preview ? place.preview : preview + place.photos[0].panorama}
               />
               {place.name}
             </Link>

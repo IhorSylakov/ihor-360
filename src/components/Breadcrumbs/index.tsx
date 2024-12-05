@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 interface Crumb {
-  label: string;
+  label: string | null;
   href: string;
 }
 
@@ -26,18 +26,12 @@ export default function Breadcrumbs() {
   const segments = pathname.split('/').filter(Boolean);
 
   const filteredSegments = segments.filter((segment) => !segment.startsWith('image-photo'));
-  const improvedSegments = filteredSegments.map((segment) => {
-    if(segment.startsWith('place-')) {
-      const name = findPlaceNameById(media, segment);
-      return name;
-    };
-    return segment
-  });
 
-  const breadcrumbs: Crumb[] = improvedSegments.map((segment, index) => {
-    const href = '/' + improvedSegments.slice(0, index + 1).join('/');
+  const breadcrumbs: Crumb[] = filteredSegments.map((segment, index) => {
+    const href = '/' + filteredSegments.slice(0, index + 1).join('/');
+    const label = segment.startsWith('place-') ? findPlaceNameById(media, segment) : decodeURIComponent(segment!);
     return {
-      label: decodeURIComponent(segment!),
+      label,
       href,
     };
   });
