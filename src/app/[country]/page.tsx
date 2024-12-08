@@ -33,9 +33,9 @@ export default function CountryPage() {
               <Image
                 width={200}
                 height={100}
-                style={{ width: '100%', height: 'auto' }}
+                style={{ width: '100%', height: 'auto', aspectRatio: '2 / 1', objectFit: 'cover' }}
                 alt={`${city.name}`}
-                src={preview + city.places[0].photos[0].panorama}
+                src={city.preview ? city.preview : preview + city.places[0].photos[0].panorama}
               />
               {city.name}
             </Link>

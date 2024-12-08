@@ -36,10 +36,12 @@ export const media: Country[] = [
     cities: [
       {
         name: "Lisbon",
+        preview: "https://lh3.googleusercontent.com/gps-proxy/ALd4DhGYcfnzkdNjtV-tzAFR-DmKx_KHHO0QPCC7uvw6tLsfQ1cE0aO_O0LWD2YGjox8au7Ffjpi82GmZ284_FH4XtvAmxFBgvx6SHyx9SeEWIIBKXtGEBaacWiW7Q-lVOSroBwgEEstXiIiJIZd2eLZ25-6mAVjMVeWy2qYjUHm1Hv8ruwa-4TdIvAC=w408-h272-k-no",
         places: [
           {
             id: "place-001",
             name: "Дворец маркизов Фронтейра",
+            preview: "https://lh5.googleusercontent.com/p/AF1QipMpQDsVLw3pqt9INwaSEaBDur0alI_3Ar6Beo4J=w408-h306-k-no",
             photos: [
               {
                 id: "image-photo_11233512",
@@ -216,6 +218,7 @@ export const media: Country[] = [
           {
             id: "place-002",
             name: "Жеронимуш",
+            preview: "https://lh5.googleusercontent.com/p/AF1QipPdzHA5ZNjLqAzppqZd3aNSsYlWFtxqe9FHy3-c=w408-h544-k-no",
             photos: [
               {
                 id: "image-photo_11233731",
@@ -307,6 +310,7 @@ export const media: Country[] = [
       },
       {
         name: "Sintra",
+        preview: "https://lh5.googleusercontent.com/p/AF1QipM9NN7bQjV9DTKVKY5grO-ExfLlQlQ4wKQgYYYY=w408-h509-k-no",
         places: [
           {
             id: "place-004",
@@ -427,6 +431,110 @@ export const media: Country[] = [
                   description: 'You can look or download original file here ' +
                     '<a target="_blank" href="https://www.clickasnap.com/image/11244343/img-20241020-121144-00-029"> ' +
                     'https://www.clickasnap.com/image/11244343/img-20241020-121144-00-029' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11252694",
+                panorama: "photo_11252694",
+                type: "360",
+                title: "Дворец Пена 10",
+                options: {
+                  caption: 'Дворец Пена 10',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11252694/img-20241020-121302-00-030"> ' +
+                    'https://www.clickasnap.com/image/11252694/img-20241020-121302-00-030' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11252727",
+                panorama: "photo_11252727",
+                type: "360",
+                title: "Дворец Пена 11",
+                options: {
+                  caption: 'Дворец Пена 11',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11252727/img-20241020-122410-00-031"> ' +
+                    'https://www.clickasnap.com/image/11252727/img-20241020-122410-00-031' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11252728",
+                panorama: "photo_11252728",
+                type: "360",
+                title: "Дворец Пена 12",
+                options: {
+                  caption: 'Дворец Пена 12',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11252728/img-20241020-125532-00-032"> ' +
+                    'https://www.clickasnap.com/image/11252728/img-20241020-125532-00-032' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11252742",
+                panorama: "photo_11252742",
+                type: "360",
+                title: "Дворец Пена 13",
+                options: {
+                  caption: 'Дворец Пена 13',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11252742/img-20241020-130522-00-033"> ' +
+                    'https://www.clickasnap.com/image/11252742/img-20241020-130522-00-033' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11252764",
+                panorama: "photo_11252764",
+                type: "360",
+                title: "Дворец Пена 14",
+                options: {
+                  caption: 'Дворец Пена 14',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11252764/img-20241020-131711-00-035"> ' +
+                    'https://www.clickasnap.com/image/11252764/img-20241020-131711-00-035' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11252768",
+                panorama: "photo_11252768",
+                type: "360",
+                title: "Дворец Пена 15",
+                options: {
+                  caption: 'Дворец Пена 15',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11252768/img-20241020-132219-00-039"> ' +
+                    'https://www.clickasnap.com/image/11252768/img-20241020-132219-00-039' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11252772",
+                panorama: "photo_11252772",
+                type: "360",
+                title: "Дворец Пена 16",
+                options: {
+                  caption: 'Дворец Пена 16',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11252772/img-20241020-133837-00-041"> ' +
+                    'https://www.clickasnap.com/image/11252772/img-20241020-133837-00-041' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11252773",
+                panorama: "photo_11252773",
+                type: "360",
+                title: "Дворец Пена 17",
+                options: {
+                  caption: 'Дворец Пена 17',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11252773/img-20241020-133905-00-042"> ' +
+                    'https://www.clickasnap.com/image/11252773/img-20241020-133905-00-042' +
                     '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
                 },
               },
