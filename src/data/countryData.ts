@@ -707,6 +707,272 @@ export const media: Country[] = [
                     '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
                 },
               },
+              {
+                id: "image-photo_11289005",
+                panorama: "photo_11289005",
+                type: "360",
+                title: "Дворец Пена 31",
+                options: {
+                  caption: 'Дворец Пена 31',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11289005/img-20241020-141316-00-059"> ' +
+                    'https://www.clickasnap.com/image/11289005/img-20241020-141316-00-059' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11289011",
+                panorama: "photo_11289011",
+                type: "360",
+                title: "Дворец Пена 32",
+                options: {
+                  caption: 'Дворец Пена 32',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11289011/img-20241020-141334-00-060"> ' +
+                    'https://www.clickasnap.com/image/11289011/img-20241020-141334-00-060' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11289013",
+                panorama: "photo_11289013",
+                type: "360",
+                title: "Дворец Пена 33",
+                options: {
+                  caption: 'Дворец Пена 33',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11289013/img-20241020-141404-00-061"> ' +
+                    'https://www.clickasnap.com/image/11289013/img-20241020-141404-00-061' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11289014",
+                panorama: "photo_11289014",
+                type: "360",
+                title: "Дворец Пена 34",
+                options: {
+                  caption: 'Дворец Пена 34',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11289014/img-20241020-141428-00-062"> ' +
+                    'https://www.clickasnap.com/image/11289014/img-20241020-141428-00-062' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11289017",
+                panorama: "photo_11289017",
+                type: "360",
+                title: "Дворец Пена 35",
+                options: {
+                  caption: 'Дворец Пена 35',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11289017/img-20241020-141536-00-063"> ' +
+                    'https://www.clickasnap.com/image/11289017/img-20241020-141536-00-063' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11289019",
+                panorama: "photo_11289019",
+                type: "360",
+                title: "Дворец Пена 36",
+                options: {
+                  caption: 'Дворец Пена 36',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11289019/img-20241020-145850-00-064"> ' +
+                    'https://www.clickasnap.com/image/11289019/img-20241020-145850-00-064' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11289020",
+                panorama: "photo_11289020",
+                type: "360",
+                title: "Дворец Пена 37",
+                options: {
+                  caption: 'Дворец Пена 37',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11289020/img-20241020-152642-00-067"> ' +
+                    'https://www.clickasnap.com/image/11289020/img-20241020-152642-00-067' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11289022",
+                panorama: "photo_11289022",
+                type: "360",
+                title: "Дворец Пена 38",
+                options: {
+                  caption: 'Дворец Пена 38',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11289022/img-20241020-152654-00-068"> ' +
+                    'https://www.clickasnap.com/image/11289022/img-20241020-152654-00-068' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+            ],
+          },
+          {
+            id: "place-005",
+            name: "Замок мавров",
+            photos: [
+              {
+                id: "image-photo_11289024",
+                panorama: "photo_11289024",
+                type: "360",
+                title: "Замок мавров 1",
+                options: {
+                  caption: 'Замок мавров 1',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11289024/img-20241020-170402-00-071"> ' +
+                    'https://www.clickasnap.com/image/11289024/img-20241020-170402-00-071' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11289026",
+                panorama: "photo_11289026",
+                type: "360",
+                title: "Замок мавров 2",
+                options: {
+                  caption: 'Замок мавров 2',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11289026/img-20241020-170443-00-072"> ' +
+                    'https://www.clickasnap.com/image/11289026/img-20241020-170443-00-072' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11292767",
+                panorama: "photo_11292767",
+                type: "360",
+                title: "Замок мавров 3",
+                options: {
+                  caption: 'Замок мавров 3',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11292767/img-20241020-170702-00-073"> ' +
+                    'https://www.clickasnap.com/image/11292767/img-20241020-170702-00-073' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11292772",
+                panorama: "photo_11292772",
+                type: "360",
+                title: "Замок мавров 4",
+                options: {
+                  caption: 'Замок мавров 4',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11292772/img-20241020-170715-00-074"> ' +
+                    'https://www.clickasnap.com/image/11292772/img-20241020-170715-00-074' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11292777",
+                panorama: "photo_11292777",
+                type: "360",
+                title: "Замок мавров 5",
+                options: {
+                  caption: 'Замок мавров 5',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11292777/img-20241020-171212-00-076"> ' +
+                    'https://www.clickasnap.com/image/11292777/img-20241020-171212-00-076' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11292782",
+                panorama: "photo_11292782",
+                type: "360",
+                title: "Замок мавров 6",
+                options: {
+                  caption: 'Замок мавров 6',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11292782/img-20241020-172029-00-077"> ' +
+                    'https://www.clickasnap.com/image/11292782/img-20241020-172029-00-077' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11292786",
+                panorama: "photo_11292786",
+                type: "360",
+                title: "Замок мавров 7",
+                options: {
+                  caption: 'Замок мавров 7',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11292786/img-20241020-172123-00-078"> ' +
+                    'https://www.clickasnap.com/image/11292786/img-20241020-172123-00-078' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11292788",
+                panorama: "photo_11292788",
+                type: "360",
+                title: "Замок мавров 8",
+                options: {
+                  caption: 'Замок мавров 8',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11292788/img-20241020-172355-00-079"> ' +
+                    'https://www.clickasnap.com/image/11292788/img-20241020-172355-00-079' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11292790",
+                panorama: "photo_11292790",
+                type: "360",
+                title: "Замок мавров 9",
+                options: {
+                  caption: 'Замок мавров 9',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11292790/img-20241020-172426-00-080"> ' +
+                    'https://www.clickasnap.com/image/11292790/img-20241020-172426-00-080' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11292791",
+                panorama: "photo_11292791",
+                type: "360",
+                title: "Замок мавров 10",
+                options: {
+                  caption: 'Замок мавров 10',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11292791/img-20241020-172455-00-081"> ' +
+                    'https://www.clickasnap.com/image/11292791/img-20241020-172455-00-081' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11292794",
+                panorama: "photo_11292794",
+                type: "360",
+                title: "Замок мавров 11",
+                options: {
+                  caption: 'Замок мавров 11',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11292794/img-20241020-172505-00-082"> ' +
+                    'https://www.clickasnap.com/image/11292794/img-20241020-172505-00-082' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11292797",
+                panorama: "photo_11292797",
+                type: "360",
+                title: "Замок мавров 10",
+                options: {
+                  caption: 'Замок мавров 10',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11292797/img-20241020-172748-00-083"> ' +
+                    'https://www.clickasnap.com/image/11292797/img-20241020-172748-00-083' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
             ],
           },
         ],
