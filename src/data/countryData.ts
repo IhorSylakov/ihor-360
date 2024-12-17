@@ -816,6 +816,7 @@ export const media: Country[] = [
           {
             id: "place-005",
             name: "Замок мавров",
+            preview: "https://lh5.googleusercontent.com/p/AF1QipMJK57Z087B5FRp9XaSQBZ7epmA6ONdzWXHZu4B=w408-h306-k-no",
             photos: [
               {
                 id: "image-photo_11289024",
@@ -964,12 +965,135 @@ export const media: Country[] = [
                 id: "image-photo_11292797",
                 panorama: "photo_11292797",
                 type: "360",
-                title: "Замок мавров 10",
+                title: "Замок мавров 12",
                 options: {
-                  caption: 'Замок мавров 10',
+                  caption: 'Замок мавров 12',
                   description: 'You can look or download original file here ' +
                     '<a target="_blank" href="https://www.clickasnap.com/image/11292797/img-20241020-172748-00-083"> ' +
                     'https://www.clickasnap.com/image/11292797/img-20241020-172748-00-083' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11302204",
+                panorama: "photo_11302204",
+                type: "360",
+                title: "Замок мавров 13",
+                options: {
+                  caption: 'Замок мавров 13',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11302204/img-20241020-172805-00-084"> ' +
+                    'https://www.clickasnap.com/image/11302204/img-20241020-172805-00-084' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+            ],
+          },
+          {
+            id: "place-006",
+            name: "Где-то в Синтре",
+            photos: [
+              {
+                id: "image-photo_11302212",
+                panorama: "photo_11302212",
+                type: "360",
+                title: "Где-то в Синтре 1",
+                options: {
+                  caption: 'Где-то в Синтре 1',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11302212/img-20241020-181036-00-085"> ' +
+                    'https://www.clickasnap.com/image/11302212/img-20241020-181036-00-085' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11302214",
+                panorama: "photo_11302214",
+                type: "360",
+                title: "Где-то в Синтре 2",
+                options: {
+                  caption: 'Где-то в Синтре 2',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11302214/img-20241020-183924-00-087"> ' +
+                    'https://www.clickasnap.com/image/11302214/img-20241020-183924-00-087' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11302218",
+                panorama: "photo_11302218",
+                type: "360",
+                title: "Где-то в Синтре 3",
+                options: {
+                  caption: 'Где-то в Синтре 3',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11302218/img-20241021-105857-00-090"> ' +
+                    'https://www.clickasnap.com/image/11302218/img-20241021-105857-00-090' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11302223",
+                panorama: "photo_11302223",
+                type: "360",
+                title: "Где-то в Синтре 4",
+                options: {
+                  caption: 'Где-то в Синтре 4',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11302223/img-20241021-105917-00-091"> ' +
+                    'https://www.clickasnap.com/image/11302223/img-20241021-105917-00-091' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11302230",
+                panorama: "photo_11302230",
+                type: "360",
+                title: "Где-то в Синтре 5",
+                options: {
+                  caption: 'Где-то в Синтре 5',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11302230/img-20241021-111017-00-094"> ' +
+                    'https://www.clickasnap.com/image/11302230/img-20241021-111017-00-094' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11302234",
+                panorama: "photo_11302234",
+                type: "360",
+                title: "Где-то в Синтре 6",
+                options: {
+                  caption: 'Где-то в Синтре 6',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11302234/img-20241021-113319-00-095"> ' +
+                    'https://www.clickasnap.com/image/11302234/img-20241021-113319-00-095' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11302237",
+                panorama: "photo_11302237",
+                type: "360",
+                title: "Где-то в Синтре 7",
+                options: {
+                  caption: 'Где-то в Синтре 7',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11302237/img-20241021-114222-00-096"> ' +
+                    'https://www.clickasnap.com/image/11302237/img-20241021-114222-00-096' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11302239",
+                panorama: "photo_11302239",
+                type: "360",
+                title: "Где-то в Синтре 8",
+                options: {
+                  caption: 'Где-то в Синтре 8',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11302239/img-20241021-114238-00-097"> ' +
+                    'https://www.clickasnap.com/image/11302239/img-20241021-114238-00-097' +
                     '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
                 },
               },
