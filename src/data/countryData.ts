@@ -1019,13 +1019,20 @@ export const media: Country[] = [
                     '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
                 },
               },
+            ],
+          },
+          {
+            id: "place-007",
+            name: "Дворец Монсеррат",
+            preview: "https://lh5.googleusercontent.com/p/AF1QipNCc9fufU8VGphAJrRSgrt4D-jZlVsvWxxjQJ80=w408-h306-k-no",
+            photos: [
               {
                 id: "image-photo_11302218",
                 panorama: "photo_11302218",
                 type: "360",
-                title: "Где-то в Синтре 3",
+                title: "Дворец Монсеррат 1",
                 options: {
-                  caption: 'Где-то в Синтре 3',
+                  caption: 'Дворец Монсеррат 1',
                   description: 'You can look or download original file here ' +
                     '<a target="_blank" href="https://www.clickasnap.com/image/11302218/img-20241021-105857-00-090"> ' +
                     'https://www.clickasnap.com/image/11302218/img-20241021-105857-00-090' +
@@ -1036,9 +1043,9 @@ export const media: Country[] = [
                 id: "image-photo_11302223",
                 panorama: "photo_11302223",
                 type: "360",
-                title: "Где-то в Синтре 4",
+                title: "Дворец Монсеррат 2",
                 options: {
-                  caption: 'Где-то в Синтре 4',
+                  caption: 'Дворец Монсеррат 2',
                   description: 'You can look or download original file here ' +
                     '<a target="_blank" href="https://www.clickasnap.com/image/11302223/img-20241021-105917-00-091"> ' +
                     'https://www.clickasnap.com/image/11302223/img-20241021-105917-00-091' +
@@ -1049,9 +1056,9 @@ export const media: Country[] = [
                 id: "image-photo_11302230",
                 panorama: "photo_11302230",
                 type: "360",
-                title: "Где-то в Синтре 5",
+                title: "Дворец Монсеррат 3",
                 options: {
-                  caption: 'Где-то в Синтре 5',
+                  caption: 'Дворец Монсеррат 3',
                   description: 'You can look or download original file here ' +
                     '<a target="_blank" href="https://www.clickasnap.com/image/11302230/img-20241021-111017-00-094"> ' +
                     'https://www.clickasnap.com/image/11302230/img-20241021-111017-00-094' +
@@ -1062,9 +1069,9 @@ export const media: Country[] = [
                 id: "image-photo_11302234",
                 panorama: "photo_11302234",
                 type: "360",
-                title: "Где-то в Синтре 6",
+                title: "Дворец Монсеррат 4",
                 options: {
-                  caption: 'Где-то в Синтре 6',
+                  caption: 'Дворец Монсеррат 4',
                   description: 'You can look or download original file here ' +
                     '<a target="_blank" href="https://www.clickasnap.com/image/11302234/img-20241021-113319-00-095"> ' +
                     'https://www.clickasnap.com/image/11302234/img-20241021-113319-00-095' +
@@ -1075,9 +1082,9 @@ export const media: Country[] = [
                 id: "image-photo_11302237",
                 panorama: "photo_11302237",
                 type: "360",
-                title: "Где-то в Синтре 7",
+                title: "Дворец Монсеррат 5",
                 options: {
-                  caption: 'Где-то в Синтре 7',
+                  caption: 'Дворец Монсеррат 5',
                   description: 'You can look or download original file here ' +
                     '<a target="_blank" href="https://www.clickasnap.com/image/11302237/img-20241021-114222-00-096"> ' +
                     'https://www.clickasnap.com/image/11302237/img-20241021-114222-00-096' +
@@ -1088,15 +1095,164 @@ export const media: Country[] = [
                 id: "image-photo_11302239",
                 panorama: "photo_11302239",
                 type: "360",
-                title: "Где-то в Синтре 8",
+                title: "Дворец Монсеррат 6",
                 options: {
-                  caption: 'Где-то в Синтре 8',
+                  caption: 'Дворец Монсеррат 6',
                   description: 'You can look or download original file here ' +
                     '<a target="_blank" href="https://www.clickasnap.com/image/11302239/img-20241021-114238-00-097"> ' +
                     'https://www.clickasnap.com/image/11302239/img-20241021-114238-00-097' +
                     '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
                 },
               },
+              {
+                id: "image-photo_11308688",
+                panorama: "photo_11308688",
+                type: "360",
+                title: "Дворец Монсеррат 7",
+                options: {
+                  caption: 'Дворец Монсеррат 7',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11308688/img-20241021-120924-00-099"> ' +
+                    'https://www.clickasnap.com/image/11308688/img-20241021-120924-00-099' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11308725",
+                panorama: "photo_11308725",
+                type: "360",
+                title: "Дворец Монсеррат 8",
+                options: {
+                  caption: 'Дворец Монсеррат 8',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11308725/img-20241021-121117-00-100"> ' +
+                    'https://www.clickasnap.com/image/11308725/img-20241021-121117-00-100' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11308732",
+                panorama: "photo_11308732",
+                type: "360",
+                title: "Дворец Монсеррат 9",
+                options: {
+                  caption: 'Дворец Монсеррат 9',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11308732/img-20241021-121717-00-101"> ' +
+                    'https://www.clickasnap.com/image/11308732/img-20241021-121717-00-101' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11308733",
+                panorama: "photo_11308733",
+                type: "360",
+                title: "Дворец Монсеррат 10",
+                options: {
+                  caption: 'Дворец Монсеррат 10',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11308733/img-20241021-134416-00-104"> ' +
+                    'https://www.clickasnap.com/image/11308733/img-20241021-134416-00-104' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11308739",
+                panorama: "photo_11308739",
+                type: "360",
+                title: "Дворец Монсеррат 11",
+                options: {
+                  caption: 'Дворец Монсеррат 11',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11308739/img-20241021-134436-00-105"> ' +
+                    'https://www.clickasnap.com/image/11308739/img-20241021-134436-00-105' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11308743",
+                panorama: "photo_11308743",
+                type: "360",
+                title: "Дворец Монсеррат 12",
+                options: {
+                  caption: 'Дворец Монсеррат 12',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11308743/img-20241021-110723-00-093"> ' +
+                    'https://www.clickasnap.com/image/11308743/img-20241021-110723-00-093' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11308748",
+                panorama: "photo_11308748",
+                type: "360",
+                title: "Дворец Монсеррат 13",
+                options: {
+                  caption: 'Дворец Монсеррат 13',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11308748/img-20241021-134619-00-106"> ' +
+                    'https://www.clickasnap.com/image/11308748/img-20241021-134619-00-106' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11308753",
+                panorama: "photo_11308753",
+                type: "360",
+                title: "Дворец Монсеррат 14",
+                options: {
+                  caption: 'Дворец Монсеррат 14',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11308753/img-20241021-134706-00-107"> ' +
+                    'https://www.clickasnap.com/image/11308753/img-20241021-134706-00-107' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              {
+                id: "image-photo_11308755",
+                panorama: "photo_11308755",
+                type: "360",
+                title: "Дворец Монсеррат 15",
+                options: {
+                  caption: 'Дворец Монсеррат 15',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11308755/img-20241021-134816-00-108"> ' +
+                    'https://www.clickasnap.com/image/11308755/img-20241021-134816-00-108' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+            ],
+          },
+          {
+            id: "place-008",
+            name: "Мыс Рока",
+            photos: [
+              {
+                id: "image-photo_11308757",
+                panorama: "photo_11308757",
+                type: "360",
+                title: "Мыс Рока 1",
+                options: {
+                  caption: 'Мыс Рока 1',
+                  description: 'You can look or download original file here ' +
+                    '<a target="_blank" href="https://www.clickasnap.com/image/11308757/img-20241021-154724-00-109"> ' +
+                    'https://www.clickasnap.com/image/11308757/img-20241021-154724-00-109' +
+                    '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+                },
+              },
+              // {
+              //   id: "image-photo_aaaaaaa",
+              //   panorama: "photo_aaaaaaa",
+              //   type: "360",
+              //   title: "Мыс Рока 1",
+              //   options: {
+              //     caption: 'Мыс Рока 1',
+              //     description: 'You can look or download original file here ' +
+              //       '<a target="_blank" href="https://www.clickasnap.com/image/aaaaaaa/bbbbbbbb"> ' +
+              //       'https://www.clickasnap.com/image/aaaaaaa/bbbbbbbb' +
+              //       '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+              //   },
+              // },
             ],
           },
         ],
