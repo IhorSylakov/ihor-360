@@ -8,7 +8,7 @@ import { media } from '@/data/countryData';
 const preview = 'https://d1unuvan7ts7ur.cloudfront.net//0x600/filters:strip_exif()/user_1866919/';
 
 export default function CountryPage() {
-  const params = useParams() as { country: string };
+  const params = useParams() as { username: string, country: string };
 
   const country = media.find((c) => c.name === params.country);
 
@@ -29,7 +29,7 @@ export default function CountryPage() {
       >
         {country.cities.map((city) => (
           <li key={city.name}>
-            <Link href={`/${country?.name}/${city?.name}`}>
+            <Link href={`/${params.username}/${country?.name}/${city?.name}`}>
               <Image
                 width={200}
                 height={100}

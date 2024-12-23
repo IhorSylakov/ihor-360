@@ -4,6 +4,7 @@ export interface Photo {
   thumbnail?: string;
   title?: string;
   hide?: boolean;
+  likes?: number;
   type: '360' | 'plain';
   options?: {
     caption: string;
@@ -11,30 +12,37 @@ export interface Photo {
   };
 }
 
-interface Place {
+export interface PlaceName {
   id: string;
   name: string;
   preview?: string;
   photos: Photo[];
+  cityId?: string;
+  countryId?: string;
 }
 
-interface City {
+export interface CityName {
+  id: string;
   name: string;
   preview?: string;
-  places: Place[];
+  places: PlaceName[];
+  countryId?: string;
 }
 
-export interface Country {
+export interface CountryName {
+  id: string;
   name: string;
   preview?: string;
-  cities: City[];
+  cities: CityName[];
 }
 
-export const media: Country[] = [
+export const media: CountryName[] = [
   {
+    id: "country000001",
     name: "Portugal",
     cities: [
       {
+        id: "sity0000001",
         name: "Lisbon",
         preview: "https://lh3.googleusercontent.com/gps-proxy/ALd4DhGYcfnzkdNjtV-tzAFR-DmKx_KHHO0QPCC7uvw6tLsfQ1cE0aO_O0LWD2YGjox8au7Ffjpi82GmZ284_FH4XtvAmxFBgvx6SHyx9SeEWIIBKXtGEBaacWiW7Q-lVOSroBwgEEstXiIiJIZd2eLZ25-6mAVjMVeWy2qYjUHm1Hv8ruwa-4TdIvAC=w408-h272-k-no",
         places: [
@@ -309,6 +317,7 @@ export const media: Country[] = [
         ],
       },
       {
+        id: "sity0000001",
         name: "Sintra",
         preview: "https://lh5.googleusercontent.com/p/AF1QipM9NN7bQjV9DTKVKY5grO-ExfLlQlQ4wKQgYYYY=w408-h509-k-no",
         places: [
@@ -1226,6 +1235,7 @@ export const media: Country[] = [
           {
             id: "place-008",
             name: "Мыс Рока",
+            preview: "https://lh5.googleusercontent.com/p/AF1QipNT1Zg2mOg38opZOc6rJuWP1E4dEFLv6ypjKJzP=w408-h305-k-no",
             photos: [
               {
                 id: "image-photo_11308757",
@@ -1255,14 +1265,49 @@ export const media: Country[] = [
               // },
             ],
           },
+          // {
+          //   id: "place-009",
+          //   name: "Кинта да Регалейра",
+          //   preview: "https://lh5.googleusercontent.com/p/AF1QipMx79uSDDFEvCBPR3mhdntnuRnH0tvQh6Vx4yUX=w426-h240-k-no",
+          //   photos: [
+          //     {
+          //       id: "image-photo_11308757",
+          //       panorama: "photo_11308757",
+          //       type: "360",
+          //       title: "Кинта да Регалейра 1",
+          //       options: {
+          //         caption: 'Кинта да Регалейра 1',
+          //         description: 'You can look or download original file here ' +
+          //           '<a target="_blank" href="https://www.clickasnap.com/image/11308757/img-20241021-154724-00-109"> ' +
+          //           'https://www.clickasnap.com/image/11308757/img-20241021-154724-00-109' +
+          //           '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+          //       },
+          //     },
+          //     {
+          //       id: "image-photo_aaaaaaa",
+          //       panorama: "photo_aaaaaaa",
+          //       type: "360",
+          //       title: "Кинта да Регалейра 1",
+          //       options: {
+          //         caption: 'Кинта да Регалейра 1',
+          //         description: 'You can look or download original file here ' +
+          //           '<a target="_blank" href="https://www.clickasnap.com/image/aaaaaaa/bbbbbbbb"> ' +
+          //           'https://www.clickasnap.com/image/aaaaaaa/bbbbbbbb' +
+          //           '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
+          //       },
+          //     },
+          //   ],
+          // },
         ],
       },
     ],
   },
   // {
-  //   name: "Country",
+  //   id: "country000001",
+  // name: "Country",
   //   cities: [
-  //     {
+  //     {id: "sity0000001",
+
   //       name: "City",
   //       places: [
   //         {

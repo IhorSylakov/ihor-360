@@ -1,6 +1,6 @@
 'use client';
 
-import { Country, media } from '@/data/countryData';
+import { CountryName, media } from '@/data/countryData';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -9,7 +9,7 @@ interface Crumb {
   href: string;
 }
 
-function findPlaceNameById(data: Country[], placeId: string) {
+function findPlaceNameById(data: CountryName[], placeId: string) {
   for (const country of data) {
     for (const city of country.cities) {
       const place = city.places.find((p) => p.id === placeId);
