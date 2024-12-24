@@ -2,35 +2,58 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { auth } from '@/lib/firebase';
-import { AuthError, createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { getAuth, createUserWithEmailAndPassword, AuthError } from 'firebase/auth';
+import { collection, query, where, getDocs, setDoc, doc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { useUser } from '@/context/UserContext';
 
 export default function RegisterPage() {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [username, setUsername] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { dispatch } = useUser();
 
-  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const uid = userCredential.user.uid;
+    setError('');
+    setLoading(true);
 
-      await setDoc(doc(db, 'users', uid), {
-        uid,
+    try {
+      const q = query(collection(db, 'users'), where('username', '==', username));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        throw new Error('Username уже используется');
+      }
+
+      const auth = getAuth();
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      await setDoc(doc(db, 'users', user.uid), {
+        uid: user.uid,
         email,
         username,
       });
 
-      setMessage('Регистрация прошла успешно!');
+      dispatch({
+        type: 'SET_USER',
+        payload: {
+          uid: user.uid,
+          username,
+          email,
+        },
+      });
+
       router.push(`/${username}`);
     } catch (error) {
       const firebaseError = error as AuthError;
-      setMessage(firebaseError.message);
+      setError(firebaseError.message || 'Ошибка при регистрации');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,36 +61,38 @@ export default function RegisterPage() {
     <div>
       <h1>Регистрация</h1>
       <form onSubmit={handleRegister}>
-        <label>
-          Имя пользователя:
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Email:
+        <div>
+          <label>Email:</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
-        <label>
-          Пароль:
+        </div>
+        <div>
+          <label>Пароль:</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
-        <button type="submit">Зарегистрироваться</button>
+        </div>
+        <div>
+          <label>Username:</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Регистрация...' : 'Зарегистрироваться'}
+        </button>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
       </form>
-      {message && <p>{message}</p>}
     </div>
   );
 }

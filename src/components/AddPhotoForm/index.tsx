@@ -5,8 +5,10 @@ import { collection, addDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useFetchLocation } from '@/hooks/useFetchLocation';
 import LocationSelect from './LocationSelect';
+import { useUser } from '@/context/UserContext';
 
 export default function AddPhotoForm() {
+  const { state } = useUser();
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedPlace, setSelectedPlace] = useState('');
@@ -92,6 +94,7 @@ export default function AddPhotoForm() {
       await addDoc(collection(db, 'photos'), {
         panorama: photoURL,
         thumbnail: thumbnailURL,
+        authorId: state.uid,
         title,
         hide,
         description,
@@ -110,8 +113,6 @@ export default function AddPhotoForm() {
 
   return (
     <form onSubmit={handleAddPhoto}>
-      <h1>Добавить фотографию</h1>
-
       <LocationSelect
         label="Страна"
         options={countries}
