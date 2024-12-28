@@ -3,19 +3,27 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import styles from './index.module.css'
-import { useFetchLocation } from '@/hooks/useFetchLocation';
-import { useIsUserAuthorized } from '@/hooks/useIsUserAuthorized';
+import { useUser } from '@/context/UserContext';
+import { useLocation } from '@/context/LocationContext';
+import { useEffect } from 'react';
 
 export default function UserPage() {
   const { username } = useParams() as { username: string };
-  const { isAuthorized } = useIsUserAuthorized();
-  const {countries} = useFetchLocation('', '');
+  const { state, fetchCountries } = useLocation();
+  const { state: userState } = useUser();
+
+  useEffect(() => {
+    fetchCountries(username);
+  }, [fetchCountries]);
+
+  if (state.loading) return <p>Загрузка...</p>;
+  if (state.error) return <p>{state.error}</p>;
 
   return (
     <div>
       <h1>Профиль пользователя: {username}</h1>
 
-      {isAuthorized && (
+      {userState.username == username && (
         <div>
           <Link
             href={`/${username}/add-photo`}
@@ -35,7 +43,7 @@ export default function UserPage() {
       )}
 
       <ul className={styles.List}>
-        {countries.map((country) => (
+        {state.countries.map((country) => (
           <li key={country.id}>
             <Link
               href={`/${username}/${country.name}`}

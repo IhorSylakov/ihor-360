@@ -68,6 +68,7 @@ export default function AddPhotoForm() {
       if (!countryId && newCountry) {
         const countryDoc = await addDoc(collection(db, 'countries'), {
           name: newCountry,
+          authorId: state.uid,
         });
         countryId = countryDoc.id;
       }
@@ -77,6 +78,7 @@ export default function AddPhotoForm() {
         const cityDoc = await addDoc(collection(db, 'cities'), {
           name: newCity,
           countryId,
+          authorId: state.uid,
         });
         cityId = cityDoc.id;
       }
@@ -87,6 +89,7 @@ export default function AddPhotoForm() {
           name: newPlace,
           cityId,
           countryId,
+          authorId: state.uid,
         });
         placeId = placeDoc.id;
       }

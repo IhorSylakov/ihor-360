@@ -1,29 +1,25 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import Link from 'next/link';
 // import Image from 'next/image';
+import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useLocation } from '@/context/LocationContext';
-import { useUser } from '@/context/UserContext';
 
-export default function CountryPage() {
-  const params = useParams() as { username: string, country: string };
+export default function CityPage() {
+  const params = useParams() as { country: string; city: string };
   const { state, fetchCitiesAndPlaces } = useLocation();
-  const { state: userState } = useUser();
 
   useEffect(() => {
-    if (userState.uid) {
-      fetchCitiesAndPlaces(params.country, undefined, userState.uid);
-    }
-  }, [fetchCitiesAndPlaces, userState]);
+    fetchCitiesAndPlaces(params.country, params.city);
+  }, [fetchCitiesAndPlaces]);
 
   if (state.loading) return <p>Загрузка...</p>;
   if (state.error) return <p>{state.error}</p>;
 
   return (
     <div>
-      <h1>{params.country}</h1>
+      <h1>{params.city} in {params.country}</h1>
       <ul
         style={{
           display: 'grid',
@@ -32,17 +28,17 @@ export default function CountryPage() {
           gridTemplateColumns: 'repeat(auto-fill, minmax(220px ,1fr))'
         }}
       >
-        {state.cities.map((city) => (
-          <li key={city.name}>
-            <Link href={`/${params.username}/${params.country}/${city?.name}`}>
+        {state.places.map((place) => (
+          <li key={place.id}>
+            <Link href={`/dashboard/${params.country}/${params.city}/${place.name}`}>
               {/* <Image
                 width={200}
                 height={100}
                 style={{ width: '100%', height: 'auto', aspectRatio: '2 / 1', objectFit: 'cover' }}
-                alt={`${city.name}`}
-                src={city.preview}
+                alt={`${place.name}`}
+                src={place.preview ? place.preview : preview + place.photos[0].panorama}
               /> */}
-              {city.name}
+              {place.name}
             </Link>
           </li>
         ))}

@@ -5,25 +5,21 @@ import Link from 'next/link';
 // import Image from 'next/image';
 import { useEffect } from 'react';
 import { useLocation } from '@/context/LocationContext';
-import { useUser } from '@/context/UserContext';
 
 export default function CountryPage() {
-  const params = useParams() as { username: string, country: string };
+  const params = useParams() as { country: string };
   const { state, fetchCitiesAndPlaces } = useLocation();
-  const { state: userState } = useUser();
 
   useEffect(() => {
-    if (userState.uid) {
-      fetchCitiesAndPlaces(params.country, undefined, userState.uid);
-    }
-  }, [fetchCitiesAndPlaces, userState]);
+    fetchCitiesAndPlaces(params.country);
+  }, [fetchCitiesAndPlaces]);
 
   if (state.loading) return <p>Загрузка...</p>;
   if (state.error) return <p>{state.error}</p>;
 
   return (
     <div>
-      <h1>{params.country}</h1>
+      <h1>dashboard {params.country}</h1>
       <ul
         style={{
           display: 'grid',
@@ -34,7 +30,7 @@ export default function CountryPage() {
       >
         {state.cities.map((city) => (
           <li key={city.name}>
-            <Link href={`/${params.username}/${params.country}/${city?.name}`}>
+            <Link href={`/dashboard/${params.country}/${city?.name}`}>
               {/* <Image
                 width={200}
                 height={100}

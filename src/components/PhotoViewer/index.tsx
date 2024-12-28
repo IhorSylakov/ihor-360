@@ -13,9 +13,6 @@ interface PhotoViewerProps {
   containerHeight?: string;
 }
 
-const baseUrl = 'https://rest-api-prod-us-east-1-799789241931.s3.us-east-1.amazonaws.com/user_1866919/';
-const thumbUrl = 'https://d1unuvan7ts7ur.cloudfront.net//0x600/filters:strip_exif()/user_1866919/';
-
 const PhotoViewer: React.FC<PhotoViewerProps> = ({ imageUrl, imagesList, containerHeight = '100vh' }) => {
   const viewerRef = useRef<HTMLDivElement | null>(null);
 
@@ -24,7 +21,7 @@ const PhotoViewer: React.FC<PhotoViewerProps> = ({ imageUrl, imagesList, contain
 
     const viewer = new Viewer({
       container: viewerRef.current,
-      panorama: baseUrl + imageUrl,
+      panorama: imageUrl,
       plugins: [
         [GalleryPlugin, {
           visibleOnLoad: true,
@@ -33,8 +30,8 @@ const PhotoViewer: React.FC<PhotoViewerProps> = ({ imageUrl, imagesList, contain
           items: imagesList.map((photo) => ({
             ...photo,
             name: '',
-            panorama: baseUrl + photo.panorama,
-            thumbnail: thumbUrl + photo.panorama,
+            panorama: photo.panorama,
+            thumbnail: photo.thumbnail,
           })),
         }],
       ],

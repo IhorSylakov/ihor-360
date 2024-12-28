@@ -1,0 +1,12 @@
+.List {
+  gap: 10px;
+  display: flex;
+  margin-top: 20px;
+  list-style: none;
+}
+
+.Link {
+  display: block;
+  padding: 5px 10px;
+  border: 1px solid var(--foreground);
+}

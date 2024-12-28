@@ -4,18 +4,14 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLocation } from '@/context/LocationContext';
-import { useUser } from '@/context/UserContext';
 import { useEffect } from 'react';
 
 export default function PlacePage() {
   const params = useParams() as { username: string, country: string; city: string; place: string };
   const { state, fetchPhotos } = useLocation();
-  const { state: userState } = useUser();
 
   useEffect(() => {
-    if (userState.uid) {
-      fetchPhotos(params.country, params.city, params.place, userState.uid);
-    }
+    fetchPhotos(params.country, params.city, params.place);
   }, [fetchPhotos]);
 
   if (state.loading) return <p>Загрузка...</p>;
@@ -34,7 +30,7 @@ export default function PlacePage() {
       >
         {state.photos.map((photo) => (
           <li key={photo.id}>
-            <Link href={`/${params.username}/${params.country}/${params.city}/${params.place}/${photo.id}`}>
+            <Link href={`/dashboard/${params.country}/${params.city}/${params.place}/${photo.id}`}>
               <Image
                 width={200}
                 height={100}

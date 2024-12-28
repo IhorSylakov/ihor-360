@@ -4,12 +4,10 @@ import Link from 'next/link';
 import Breadcrumbs from '../Breadcrumbs';
 import LogoutButton from '@/components/LogoutButton';
 import styles from './index.module.css'
-import { useParams } from 'next/navigation';
-import { useIsUserAuthorized } from '@/hooks/useIsUserAuthorized';
+import { useUser } from '@/context/UserContext';
 
 export default function Header() {
-  const { username } = useParams() as { username: string };
-  const { isAuthorized } = useIsUserAuthorized();
+  const { state } = useUser();
 
   return (
     <header className={styles.Header}>
@@ -32,14 +30,23 @@ export default function Header() {
           </svg>
         </label>
         <ul className={styles.NavList}>
-          {isAuthorized ? (
-            <li className={styles.NavItem}>
-              <Link
-                href={`/${username}/settings`}
-              >
-                Settings
-              </Link>
-            </li>
+          {!!state ? (
+            <>
+              <li className={styles.NavItem}>
+                <Link
+                  href={`/${state.username}`}
+                >
+                  {state.username}
+                </Link>
+              </li>
+              <li className={styles.NavItem}>
+                <Link
+                  href={`/${state.username}/settings`}
+                >
+                  Settings
+                </Link>
+              </li>
+            </>
           ) : (
             <li className={styles.NavItem}>
               <Link

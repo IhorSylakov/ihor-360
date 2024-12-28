@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import { auth } from '@/lib/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import Link from 'next/link';
+import { useUser } from '@/context/UserContext';
 
 export default function LogoutButton() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>('');
+  const { dispatch } = useUser();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -20,10 +21,10 @@ export default function LogoutButton() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      setMessage('Вы вышли из аккаунта.');
+      dispatch({type: 'CLEAR_USER'});
+      sessionStorage.removeItem('user');
     } catch (error) {
       console.error('Ошибка при выходе:', error);
-      setMessage('Произошла ошибка при выходе. Попробуйте снова.');
     }
   };
 
@@ -62,7 +63,6 @@ export default function LogoutButton() {
       >
         Выйти
       </button>
-      {message && <p>{message}</p>}
     </div>
   );
 }

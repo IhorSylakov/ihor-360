@@ -3,18 +3,14 @@
 import { useParams } from 'next/navigation';
 import PhotoViewer from '@/components/PhotoViewer';
 import { useLocation } from '@/context/LocationContext';
-import { useUser } from '@/context/UserContext';
 import { useEffect } from 'react';
 
 export default function PhotoViewerPage() {
   const params = useParams() as { username: string, country: string; city: string; place: string; photoId: string };
   const { state, fetchPhotos, getPhoto } = useLocation();
-  const { state: userState } = useUser();
 
   useEffect(() => {
-    if (userState.uid) {
-      fetchPhotos(params.country, params.city, params.place, userState.uid);
-    }
+    fetchPhotos(params.country, params.city, params.place);
   }, [fetchPhotos]);
 
   useEffect(() => {
