@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { CityName, CountryName, PlaceName } from '@/data/countryData';
+import { CityName, PlaceName } from '@/data/countryData';
+import { Country } from '@/types/types';
 
 export const useFetchLocation = (selectedCountry: string, selectedCity: string) => {
-  const [countries, setCountries] = useState<CountryName[]>([]);
+  const [countries, setCountries] = useState<Country[]>([]);
   const [cities, setCities] = useState<CityName[]>([]);
   const [places, setPlaces] = useState<PlaceName[]>([]);
 
@@ -15,7 +16,7 @@ export const useFetchLocation = (selectedCountry: string, selectedCity: string) 
       const data = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-      })) as CountryName[];
+      })) as Country[];
       setCountries(data);
     };
     fetchCountries();

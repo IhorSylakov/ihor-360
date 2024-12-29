@@ -43,7 +43,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     try {
-      // Восстановление из sessionStorage
       const savedUser = sessionStorage.getItem('user');
       if (savedUser) {
         const parsedUser = JSON.parse(savedUser);

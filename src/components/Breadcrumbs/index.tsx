@@ -1,40 +1,39 @@
-'use client';
-
-import { CountryName, media } from '@/data/countryData';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { headers } from 'next/headers';
+import { db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 interface Crumb {
   label: string | null;
   href: string;
 }
 
-function findPlaceNameById(data: CountryName[], placeId: string) {
-  for (const country of data) {
-    for (const city of country.cities) {
-      const place = city.places.find((p) => p.id === placeId);
-      if (place) {
-        return place.name;
-      }
-    }
-  }
-  return null;
+// Определяем название сегмента
+async function fetchLabel(segment: string, index: number): Promise<string | null> {
+  // Если это не первый сегмент, предполагаем, что это данные из Firestore
+  const collections = ['countries', 'cities', 'places']; // Пример коллекций
+  const collection = collections[index - 1]; // Определяем коллекцию по уровню
+
+  if (!collection) return segment; // Если коллекция не определена, возвращаем сегмент как есть
+
+  const docRef = doc(db, collection, segment);
+  const docSnap = await getDoc(docRef);
+
+  return docSnap.exists() ? docSnap.data().name : segment;
 }
 
-export default function Breadcrumbs() {
-  const pathname = usePathname();
+export default async function Breadcrumbs() {
+  const data = await headers();
+  const pathname = data.get('x-pathname') || '/';
   const segments = pathname.split('/').filter(Boolean);
 
-  const filteredSegments = segments.filter((segment) => !segment.startsWith('image-photo'));
-
-  const breadcrumbs: Crumb[] = filteredSegments.map((segment, index) => {
-    const href = '/' + filteredSegments.slice(0, index + 1).join('/');
-    const label = segment.startsWith('place-') ? findPlaceNameById(media, segment) : decodeURIComponent(segment!);
-    return {
-      label,
-      href,
-    };
-  });
+  const breadcrumbs: Crumb[] = await Promise.all(
+    segments.map(async (segment, index) => {
+      const href = '/' + segments.slice(0, index + 1).join('/');
+      const label = await fetchLabel(segment, index); // Динамически получаем название сегмента
+      return { label, href };
+    })
+  );
 
   return (
     <nav aria-label="breadcrumbs">

@@ -1,29 +1,25 @@
-'use client';
-
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import styles from './index.module.css'
-import { useUser } from '@/context/UserContext';
-import { useLocation } from '@/context/LocationContext';
-import { useEffect } from 'react';
+import styles from './index.module.css';
+import { fetchCountries } from '@/lib/firebaseHelpers';
 
-export default function UserPage() {
-  const { username } = useParams() as { username: string };
-  const { state, fetchCountries } = useLocation();
-  const { state: userState } = useUser();
+interface UserPageProps {
+  params: Promise<{ username: string }>;
+}
 
-  useEffect(() => {
-    fetchCountries(username);
-  }, [fetchCountries]);
+export default async function UserPage({ params }: UserPageProps) {
+  const { username } = await params;
 
-  if (state.loading) return <p>Загрузка...</p>;
-  if (state.error) return <p>{state.error}</p>;
+  const countries = await fetchCountries(username);
+
+  // Проверяем, является ли текущий пользователь владельцем страницы
+  // Предполагаем, что текущий пользователь доступен из куков или сессии
+  // const isOwner = true; // Здесь добавьте свою логику проверки, например, через авторизацию
 
   return (
     <div>
       <h1>Профиль пользователя: {username}</h1>
 
-      {userState.username == username && (
+      {/* {isOwner && (
         <div>
           <Link
             href={`/${username}/add-photo`}
@@ -40,10 +36,10 @@ export default function UserPage() {
             add-photo
           </Link>
         </div>
-      )}
+      )} */}
 
       <ul className={styles.List}>
-        {state.countries.map((country) => (
+        {countries.map((country) => (
           <li key={country.id}>
             <Link
               href={`/${username}/${country.name}`}

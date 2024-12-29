@@ -3,11 +3,12 @@
 import { createContext, useContext, useReducer } from 'react';
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { CityName, CountryName, Photo, PlaceName } from '@/data/countryData';
+import { CityName, Photo, PlaceName } from '@/data/countryData';
 import { useCallback } from 'react';
+import { Country } from '@/types/types';
 
 interface LocationState {
-  countries: CountryName[];
+  countries: Country[];
   cities: CityName[];
   places: PlaceName[];
   photos: Photo[];
@@ -56,14 +57,12 @@ function locationReducer(state: LocationState, action: LocationAction): Location
 const LocationContext = createContext<{
   state: LocationState;
   dispatch: React.Dispatch<LocationAction>;
-  fetchCountries: (userName?: string) => Promise<void>;
-  fetchCitiesAndPlaces: (countryName: string, cityName?: string, userName?: string) => Promise<void>;
-  fetchPhotos: (countryName: string, cityName: string, placeName: string, userName?: string) => Promise<void>;
+  fetchCitiesAndPlaces: (countryname: string, cityName?: string, userName?: string) => Promise<void>;
+  fetchPhotos: (countryname: string, cityName: string, placeName: string, userName?: string) => Promise<void>;
   getPhoto: (photoId: string) => Promise<void>;
 }>({
   state: initialState,
   dispatch: () => undefined,
-  fetchCountries: async () => {},
   fetchCitiesAndPlaces: async () => {},
   getPhoto: async () => {},
   fetchPhotos: async () => {},
@@ -72,64 +71,25 @@ const LocationContext = createContext<{
 export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(locationReducer, initialState);
 
-  const fetchCountries = useCallback(async (userName?: string) => {
-    dispatch({ type: 'SET_LOADING' });
-    try {
-      let countryQuery;
-      let countries: { id: string; }[];
-      let userId: string | undefined;
-      if (userName) {
-        const userQuery = query(
-          collection(db, 'users'),
-          where('username', '==', userName)
-        );
-        const userSnapshot = await getDocs(userQuery);
-        if (!userSnapshot.empty) {
-          userId = userSnapshot.docs[0].id;
-        } else {
-          throw new Error(`"${userId}" не найден`);
-        }
-      }
-      if (userId) {
-        countryQuery = query(collection(db, 'countries'), where('authorId', '==', userId));
-      } else {
-        countryQuery = query(collection(db, 'countries'));
-      }
-      const snapshot = await getDocs(countryQuery);
-      if (!snapshot.empty) {
-        countries = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-      } else {
-        countries = [];
-      }
-      dispatch({ type: 'SET_COUNTRIES', payload: countries });
-    } catch (error) {
-      console.log(error);
-      dispatch({ type: 'SET_ERROR', payload: 'Ошибка загрузки стран' });
-    }
-  }, [dispatch]);
-
   const fetchCitiesAndPlaces = useCallback(
-    async (countryName?: string, cityName?: string, userName?: string) => {
+    async (countryname?: string, cityName?: string, userName?: string) => {
       dispatch({ type: 'SET_LOADING' });
   
       try {
         let countryId: string | undefined;
         let cityId: string | undefined;
 
-        if (countryName) {
+        if (countryname) {
           const countryQuery = query(
             collection(db, 'countries'),
-            where('name', '==', countryName),
+            where('name', '==', countryname),
             ...(userName ? [where('authorId', '==', userName)] : [])
           );
           const countrySnapshot = await getDocs(countryQuery);
           if (!countrySnapshot.empty) {
             countryId = countrySnapshot.docs[0].id;
           } else {
-            throw new Error(`Страна с именем "${countryName}" не найдена`);
+            throw new Error(`Страна с именем "${countryname}" не найдена`);
           }
         }
 
@@ -144,7 +104,7 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           if (!citySnapshot.empty) {
             cityId = citySnapshot.docs[0].id;
           } else {
-            throw new Error(`Город с именем "${cityName}" в стране "${countryName}" не найден`);
+            throw new Error(`Город с именем "${cityName}" в стране "${countryname}" не найден`);
           }
         }
 
@@ -184,7 +144,7 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   );
 
   const fetchPhotos = useCallback(
-    async (countryName: string, cityName: string, placeName: string, userName?: string) => {
+    async (countryname: string, cityName: string, placeName: string, userName?: string) => {
       dispatch({ type: 'SET_LOADING' });
 
       try {
@@ -192,17 +152,17 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         let cityId: string | undefined;
         let placeId: string | undefined;
 
-        if (countryName) {
+        if (countryname) {
           const countryQuery = query(
             collection(db, 'countries'),
-            where('name', '==', countryName),
+            where('name', '==', countryname),
             ...(userName ? [where('authorId', '==', userName)] : [])
           );
           const countrySnapshot = await getDocs(countryQuery);
           if (!countrySnapshot.empty) {
             countryId = countrySnapshot.docs[0].id;
           } else {
-            throw new Error(`Страна с именем "${countryName}" не найдена`);
+            throw new Error(`Страна с именем "${countryname}" не найдена`);
           }
         }
 
@@ -217,7 +177,7 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           if (!citySnapshot.empty) {
             cityId = citySnapshot.docs[0].id;
           } else {
-            throw new Error(`Город с именем "${cityName}" в стране "${countryName}" не найден`);
+            throw new Error(`Город с именем "${cityName}" в стране "${countryname}" не найден`);
           }
         }
 
@@ -233,7 +193,7 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           if (!placeSnapshot.empty) {
             placeId = placeSnapshot.docs[0].id;
           } else {
-            throw new Error(`Место с именем "${placeName}" в городе "${cityName}" в стране "${countryName}" не найден`);
+            throw new Error(`Место с именем "${placeName}" в городе "${cityName}" в стране "${countryname}" не найден`);
           }
         }
 
@@ -281,7 +241,6 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       value={{
         state,
         dispatch,
-        fetchCountries,
         fetchCitiesAndPlaces,
         fetchPhotos,
         getPhoto,

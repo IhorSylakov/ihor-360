@@ -1,29 +1,22 @@
-'use client';
-
-import { useParams } from 'next/navigation';
 import Link from 'next/link';
 // import Image from 'next/image';
-import { useEffect } from 'react';
-import { useLocation } from '@/context/LocationContext';
-import { useUser } from '@/context/UserContext';
+import { fetchCities } from '@/lib/firebaseHelpers';
+import { cookies } from 'next/headers';
 
-export default function CountryPage() {
-  const params = useParams() as { username: string, country: string };
-  const { state, fetchCitiesAndPlaces } = useLocation();
-  const { state: userState } = useUser();
+interface CountryPageProps {
+  params: Promise<{ country: string }>;
+}
 
-  useEffect(() => {
-    if (userState.uid) {
-      fetchCitiesAndPlaces(params.country, undefined, userState.uid);
-    }
-  }, [fetchCitiesAndPlaces, userState]);
-
-  if (state.loading) return <p>Загрузка...</p>;
-  if (state.error) return <p>{state.error}</p>;
+export default async function CountryPage({ params }: CountryPageProps) {
+  const { country } = await params;
+  const userCookies = await cookies();
+  const userCookie = userCookies.get('user');
+  const user = userCookie ? JSON.parse(userCookie.value) : null;
+  const cities = await fetchCities(country, user.uid);
 
   return (
     <div>
-      <h1>{params.country}</h1>
+      <h1>{country}</h1>
       <ul
         style={{
           display: 'grid',
@@ -32,9 +25,9 @@ export default function CountryPage() {
           gridTemplateColumns: 'repeat(auto-fill, minmax(220px ,1fr))'
         }}
       >
-        {state.cities.map((city) => (
+        {cities.map((city) => (
           <li key={city.name}>
-            <Link href={`/${params.username}/${params.country}/${city?.name}`}>
+            <Link href={`/${user.username}/${country}/${city.name}`}>
               {/* <Image
                 width={200}
                 height={100}
