@@ -1,25 +1,21 @@
-'use client';
-
-import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useLocation } from '@/context/LocationContext';
-import { useEffect } from 'react';
+import { fetchPhotos } from '@/lib/firebaseHelpers';
 
-export default function PlacePage() {
-  const params = useParams() as { username: string, country: string; city: string; place: string };
-  const { state, fetchPhotos } = useLocation();
-
-  useEffect(() => {
-    fetchPhotos(params.country, params.city, params.place);
-  }, [fetchPhotos]);
-
-  if (state.loading) return <p>Загрузка...</p>;
-  if (state.error) return <p>{state.error}</p>;
+interface PlacePageProps {
+  params: Promise<{
+    country: string;
+    city: string;
+    place: string;
+  }>;
+}
+export default async function PlacePage({ params }: PlacePageProps) {
+  const { country, city, place } = await params;
+  const photos = await fetchPhotos(place);
 
   return (
     <div>
-      <h1>{params.place} in {params.city}, {params.country}</h1>
+      <h1>{place} in {city}, {country}</h1>
       <ul
         style={{
           display: 'grid',
@@ -28,9 +24,9 @@ export default function PlacePage() {
           gridTemplateColumns: 'repeat(auto-fill, minmax(220px ,1fr))'
         }}
       >
-        {state.photos.map((photo) => (
+        {photos.map((photo) => (
           <li key={photo.id}>
-            <Link href={`/dashboard/${params.country}/${params.city}/${params.place}/${photo.id}`}>
+            <Link href={`/dashboard/${country}/${city}/${place}/${photo.id}`}>
               <Image
                 width={200}
                 height={100}

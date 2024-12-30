@@ -1,29 +1,26 @@
-'use client';
-
-import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useLocation } from '@/context/LocationContext';
-import { useUser } from '@/context/UserContext';
-import { useEffect } from 'react';
+import { cookies } from 'next/headers';
+import { fetchPhotos } from '@/lib/firebaseHelpers';
 
-export default function PlacePage() {
-  const params = useParams() as { username: string, country: string; city: string; place: string };
-  const { state, fetchPhotos } = useLocation();
-  const { state: userState } = useUser();
+interface PlacePageProps {
+  params: Promise<{
+    country: string;
+    city: string;
+    place: string;
+  }>;
+}
 
-  useEffect(() => {
-    if (userState.uid) {
-      fetchPhotos(params.country, params.city, params.place, userState.uid);
-    }
-  }, [fetchPhotos]);
-
-  if (state.loading) return <p>Загрузка...</p>;
-  if (state.error) return <p>{state.error}</p>;
+export default async function PlacePage({ params }: PlacePageProps) {
+  const { country, city, place } = await params;
+  const userCookies = await cookies();
+  const userCookie = userCookies.get('user');
+  const user = userCookie ? JSON.parse(userCookie.value) : null;
+  const photos = await fetchPhotos(place);
 
   return (
     <div>
-      <h1>{params.place} in {params.city}, {params.country}</h1>
+      <h1>{place} in {city}, {country}</h1>
       <ul
         style={{
           display: 'grid',
@@ -32,9 +29,9 @@ export default function PlacePage() {
           gridTemplateColumns: 'repeat(auto-fill, minmax(220px ,1fr))'
         }}
       >
-        {state.photos.map((photo) => (
+        {photos.map((photo) => (
           <li key={photo.id}>
-            <Link href={`/${params.username}/${params.country}/${params.city}/${params.place}/${photo.id}`}>
+            <Link href={`/${user.username}/${country}/${city}/${place}/${photo.id}`}>
               <Image
                 width={200}
                 height={100}

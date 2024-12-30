@@ -5,7 +5,7 @@ import { Viewer } from '@photo-sphere-viewer/core';
 import { GalleryPlugin } from '@photo-sphere-viewer/gallery-plugin';
 import '@photo-sphere-viewer/core/index.css';
 import '@photo-sphere-viewer/gallery-plugin/index.css';
-import { Photo } from '@/data/countryData';
+import { Photo } from '@/types/types';
 
 interface PhotoViewerProps {
   imageUrl: string;

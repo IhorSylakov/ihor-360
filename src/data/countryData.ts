@@ -1,4 +1,4 @@
-export interface Photo {
+interface Photo {
   id: string;
   panorama: string;
   thumbnail?: string;
@@ -29,7 +29,7 @@ export interface CityName {
   countryId?: string;
 }
 
-export interface CountryName {
+interface CountryName {
   id: string;
   name: string;
   preview?: string;

@@ -1,34 +1,25 @@
-'use client';
-
-import { useParams } from 'next/navigation';
 import PhotoViewer from '@/components/PhotoViewer';
-import { useLocation } from '@/context/LocationContext';
-import { useUser } from '@/context/UserContext';
-import { useEffect } from 'react';
+import { fetchPhotos, fetchOnePhoto } from '@/lib/firebaseHelpers';
 
-export default function PhotoViewerPage() {
-  const params = useParams() as { username: string, country: string; city: string; place: string; photoId: string };
-  const { state, fetchPhotos, getPhoto } = useLocation();
-  const { state: userState } = useUser();
+interface PlacePageProps {
+  params: Promise<{
+    country: string;
+    city: string;
+    place: string;
+    photoId: string;
+  }>;
+}
 
-  useEffect(() => {
-    if (userState.uid) {
-      fetchPhotos(params.country, params.city, params.place, userState.uid);
-    }
-  }, [fetchPhotos]);
-
-  useEffect(() => {
-    getPhoto(params.photoId)
-  }, [getPhoto]);
-
-  if (state.loading) return <p>Загрузка...</p>;
-  if (state.error) return <p>{state.error}</p>;
+export default async function PhotoViewerPage({ params }: PlacePageProps) {
+  const { place, photoId } = await params;
+  const photos = await fetchPhotos(place);
+  const photo = await fetchOnePhoto(photoId);
 
   return (
     <div>
       <PhotoViewer
-        imageUrl={state.photo?.panorama ? state.photo?.panorama : ''}
-        imagesList={state.photos}
+        imageUrl={photo?.panorama ? photo?.panorama : ''}
+        imagesList={photos}
         containerHeight='calc(100vh - var(--header-height))'
       />
     </div>

@@ -4,7 +4,6 @@ import Header from '@/components/Header';
 import "./globals.css";
 import '@photo-sphere-viewer/core/index.css';
 import { UserProvider } from '@/context/UserContext';
-import { LocationProvider } from '@/context/LocationContext';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,12 +30,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <UserProvider>
-          <LocationProvider>
-            <Header />
-            <main>
-              {children}
-            </main>
-          </LocationProvider>
+          <Header />
+          <main>
+            {children}
+          </main>
         </UserProvider>
       </body>
     </html>

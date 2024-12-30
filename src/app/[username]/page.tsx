@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styles from './index.module.css';
 import { fetchCountries } from '@/lib/firebaseHelpers';
+import { cookies } from 'next/headers';
 
 interface UserPageProps {
   params: Promise<{ username: string }>;
@@ -8,21 +9,20 @@ interface UserPageProps {
 
 export default async function UserPage({ params }: UserPageProps) {
   const { username } = await params;
+  const userCookies = await cookies();
+  const userCookie = userCookies.get('user');
+  const user = userCookie ? JSON.parse(userCookie.value) : null;
 
-  const countries = await fetchCountries(username);
-
-  // Проверяем, является ли текущий пользователь владельцем страницы
-  // Предполагаем, что текущий пользователь доступен из куков или сессии
-  // const isOwner = true; // Здесь добавьте свою логику проверки, например, через авторизацию
+  const countries = await fetchCountries(user.uid);
 
   return (
     <div>
-      <h1>Профиль пользователя: {username}</h1>
+      <h1>Профиль пользователя: {user.username}</h1>
 
-      {/* {isOwner && (
+      {user.username === username && (
         <div>
           <Link
-            href={`/${username}/add-photo`}
+            href={`/${user.username}/add-photo`}
             style={{
               display: 'inline-block',
               padding: '10px 20px',
@@ -36,13 +36,13 @@ export default async function UserPage({ params }: UserPageProps) {
             add-photo
           </Link>
         </div>
-      )} */}
+      )}
 
       <ul className={styles.List}>
         {countries.map((country) => (
           <li key={country.id}>
             <Link
-              href={`/${username}/${country.name}`}
+              href={`/${user.username}/${country.name}`}
               className={styles.Link}
             >
               {country.name}
