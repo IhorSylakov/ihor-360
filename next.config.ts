@@ -30,6 +30,7 @@ const nextConfig: NextConfig = {
     });
     return config;
   },
+  productionBrowserSourceMaps: false,
 };
 
 export default nextConfig;

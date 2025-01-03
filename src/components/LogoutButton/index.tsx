@@ -18,8 +18,8 @@ export default function LogoutButton() {
       <button
         onClick={handleLogout}
         style={{
-          padding: '10px 20px',
-          backgroundColor: '#d9534f',
+          padding: '0',
+          background: 'none',
           color: 'white',
           border: 'none',
           borderRadius: '5px',

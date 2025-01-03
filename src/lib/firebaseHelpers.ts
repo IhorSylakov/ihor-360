@@ -17,7 +17,26 @@ async function findIdByName(
   return snapshot.empty ? null : snapshot.docs[0].id;
 }
 
-export async function fetchCountries(userId?: string): Promise<Country[]> {
+async function findUserId(name: string | undefined): Promise<string | undefined> {
+  let userId: string | undefined;
+  if (name) {
+    const userQuery = query(
+      collection(db, 'users'),
+      where('username', '==', name)
+    );
+    const userSnapshot = await getDocs(userQuery);
+    if (!userSnapshot.empty) {
+      userId = userSnapshot.docs[0].id;
+    } else {
+      throw new Error(`"${userId}" не найден`);
+    }
+  }
+  return userId;
+}
+
+export async function fetchCountries(userName?: string): Promise<Country[]> {
+  const userId = await findUserId(userName);
+
   const q = query(
     collection(db, 'countries'),
     ...(userId ? [where('authorId', '==', userId)] : [])
@@ -28,9 +47,11 @@ export async function fetchCountries(userId?: string): Promise<Country[]> {
     id: doc.id,
     ...doc.data(),
   })) as Country[];
+
 }
 
-export async function fetchCities(countryName: string, userId?: string): Promise<City[]> {
+export async function fetchCities(countryName: string, userName?: string): Promise<City[]> {
+  const userId = await findUserId(userName);
   const countryId = await findIdByName('countries', countryName, userId);
   if (!countryId) {
     throw new Error(`Страна "${countryName}" не найдена`);
@@ -48,10 +69,11 @@ export async function fetchCities(countryName: string, userId?: string): Promise
   })) as City[];
 }
 
-export async function fetchPlaces(CityName: string, userId?: string): Promise<Place[]> {
+export async function fetchPlaces(CityName: string, userName?: string): Promise<Place[]> {
+  const userId = await findUserId(userName);
   const cityId = await findIdByName('cities', CityName, userId);
   if (!cityId) {
-    throw new Error(`Страна "${CityName}" не найдена`);
+    throw new Error(`Город "${CityName}" не найден`);
   }
 
   const q = query(
@@ -67,10 +89,11 @@ export async function fetchPlaces(CityName: string, userId?: string): Promise<Pl
   })) as Place[];
 }
 
-export async function fetchPhotos(PlaceName: string, userId?: string): Promise<Photo[]> {
+export async function fetchPhotos(PlaceName: string, userName?: string): Promise<Photo[]> {
+  const userId = await findUserId(userName);
   const placeId = await findIdByName('places', PlaceName, userId);
   if (!placeId) {
-    throw new Error(`Страна "${PlaceName}" не найдена`);
+    throw new Error(`Место "${PlaceName}" не найдено`);
   }
 
   const q = query(

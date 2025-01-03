@@ -35,6 +35,8 @@ interface CountryName {
   preview?: string;
   cities: CityName[];
 }
+// const baseUrl = 'https://rest-api-prod-us-east-1-799789241931.s3.us-east-1.amazonaws.com/user_1866919/';
+// const thumbUrl = 'https://d1unuvan7ts7ur.cloudfront.net//0x600/filters:strip_exif()/user_1866919/';
 
 export const media: CountryName[] = [
   {

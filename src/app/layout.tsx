@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Header from '@/components/Header';
 import "./globals.css";
-import '@photo-sphere-viewer/core/index.css';
 import { UserProvider } from '@/context/UserContext';
 
 const geistSans = localFont({

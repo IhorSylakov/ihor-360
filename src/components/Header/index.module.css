@@ -6,17 +6,17 @@
   padding: 0 var(--main-indents);
 }
 
-.NavOpenerIcon path:nth-child(1),
-.NavOpenerIcon path:nth-child(3) {
+.NavOpener path:nth-child(1),
+.NavOpener path:nth-child(3) {
   --total-length: 126.64183044433594;
 }
-.NavOpenerIcon path:nth-child(2) {
+.NavOpener path:nth-child(2) {
   --total-length: 70;
 }
 
-.NavOpenerIcon path:nth-child(1),
-.NavOpenerIcon path:nth-child(2),
-.NavOpenerIcon path:nth-child(3) {
+.NavOpener path:nth-child(1),
+.NavOpener path:nth-child(2),
+.NavOpener path:nth-child(3) {
   --length: 24;
   --offset: -38;
   fill: none;
@@ -30,34 +30,27 @@
 }
 
 .NavOpener {
-  width: 0;
-  height: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  opacity: 0;
-  position: absolute;
-}
-
-.NavOpenerIcon {
   width: 30px;
   height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  background: none;
+  border: none;
 }
 
-.NavOpenerIcon svg {
+.NavOpener svg {
   min-width: 50px;
   min-height: 50px;
 }
 
-.NavOpener:checked + .NavOpenerIcon path:nth-child(1),
-.NavOpener:checked + .NavOpenerIcon path:nth-child(3) {
+.NavOpener.IsOpened path:nth-child(1),
+.NavOpener.IsOpened path:nth-child(3) {
   --length: 22.627416998;
   --offset: -94.1149185097;
 }
-.NavOpener:checked + .NavOpenerIcon path:nth-child(2) {
+.NavOpener.IsOpened path:nth-child(2) {
   --length: 0;
   --offset: -50;
 }
@@ -65,18 +58,13 @@
 .NavList {
   --secondary-color: var(--main-color);
   margin: 0;
-  padding: 0;
   gap: 30px;
   font-size: 18px;
   line-height: 22px;
   list-style: none;
-  display: none;
-  width: 100vw;
-}
-
-.NavOpener:checked ~ .NavList {
   display: flex;
   position: fixed;
+  width: 100vw;
   background: var(--background);
   right: 0;
   bottom: 0;

@@ -13,16 +13,16 @@ export default async function UserPage({ params }: UserPageProps) {
   const userCookie = userCookies.get('user');
   const user = userCookie ? JSON.parse(userCookie.value) : null;
 
-  const countries = await fetchCountries(user.uid);
+  const countries = await fetchCountries(username);
 
   return (
     <div>
-      <h1>Профиль пользователя: {user.username}</h1>
+      <h1>Профиль пользователя: {username}</h1>
 
-      {user.username === username && (
+      {user && user.username === username && (
         <div>
           <Link
-            href={`/${user.username}/add-photo`}
+            href={`/${username}/add-photo`}
             style={{
               display: 'inline-block',
               padding: '10px 20px',
@@ -42,7 +42,7 @@ export default async function UserPage({ params }: UserPageProps) {
         {countries.map((country) => (
           <li key={country.id}>
             <Link
-              href={`/${user.username}/${country.name}`}
+              href={`/${username}/${country.name}`}
               className={styles.Link}
             >
               {country.name}

@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { cookies } from 'next/headers';
 import { fetchPhotos } from '@/lib/firebaseHelpers';
 
 interface PlacePageProps {
   params: Promise<{
+    username: string;
     country: string;
     city: string;
     place: string;
@@ -12,11 +12,8 @@ interface PlacePageProps {
 }
 
 export default async function PlacePage({ params }: PlacePageProps) {
-  const { country, city, place } = await params;
-  const userCookies = await cookies();
-  const userCookie = userCookies.get('user');
-  const user = userCookie ? JSON.parse(userCookie.value) : null;
-  const photos = await fetchPhotos(place);
+  const { username, country, city, place } = await params;
+  const photos = await fetchPhotos(place, username);
 
   return (
     <div>
@@ -31,7 +28,7 @@ export default async function PlacePage({ params }: PlacePageProps) {
       >
         {photos.map((photo) => (
           <li key={photo.id}>
-            <Link href={`/${user.username}/${country}/${city}/${place}/${photo.id}`}>
+            <Link href={`/${username}/${country}/${city}/${place}/${photo.id}`}>
               <Image
                 width={200}
                 height={100}

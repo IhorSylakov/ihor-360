@@ -1,19 +1,20 @@
 import PhotoViewer from '@/components/PhotoViewer';
 import { fetchPhotos, fetchOnePhoto } from '@/lib/firebaseHelpers';
 
-interface PlacePageProps {
+interface PhotoPageProps {
   params: Promise<{
+    username: string;
     country: string;
     city: string;
     place: string;
-    photoId: string;
+    photoid: string;
   }>;
 }
 
-export default async function PhotoViewerPage({ params }: PlacePageProps) {
-  const { place, photoId } = await params;
-  const photos = await fetchPhotos(place);
-  const photo = await fetchOnePhoto(photoId);
+export default async function PhotoViewerPage({ params }: PhotoPageProps) {
+  const { username, place, photoid } = await params;
+  const photos = await fetchPhotos(place, username);
+  const photo = await fetchOnePhoto(photoid);
 
   return (
     <div>
