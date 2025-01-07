@@ -1,12 +1,17 @@
 'use client';
 
 import { useState } from 'react';
+import { AuthError, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { useUser } from '@/context/UserContext';
 
 export default function LoginPage() {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { dispatch } = useUser();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -14,21 +19,46 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ identifier, password }),
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || 'Ошибка при логине');
+      const auth = getAuth();
+      let email = identifier;
+      let username = '';
+      if (!identifier.includes('@')) {
+        const q = query(collection(db, 'users'), where('username', '==', identifier));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
+          throw new Error('Пользователь с таким username не найден');
+        }
+        const userData = querySnapshot.docs[0].data();
+        email = userData.email;
+        username = userData.username;
+      }
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      // await signInWithEmailAndPassword(auth, email, password);
+      if (!username) {
+        const q = query(collection(db, 'users'), where('email', '==', email));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const userData = querySnapshot.docs[0].data();
+          username = userData.username;
+        }
       }
 
-      const data = await res.json();
-      window.location.href = `/${data.username}`;
+      if (!username) {
+        throw new Error('Не удалось найти данные пользователя');
+      }
+
+      dispatch({
+        type: 'SET_USER',
+        payload: {
+          uid: userCredential.user.uid,
+          username,
+          email,
+        },
+      });
+      window.location.href = `/${username}`;
     } catch (error) {
-      setError((error as Error).message || 'Ошибка при логине');
+      const firebaseError = error as AuthError;
+      setError(firebaseError.message);
     } finally {
       setLoading(false);
     }

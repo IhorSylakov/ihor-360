@@ -30,8 +30,8 @@ const PhotoViewer: React.FC<PhotoViewerProps> = ({ imageUrl, imagesList, contain
           items: imagesList.map((photo) => ({
             ...photo,
             name: '',
-            panorama: photo.panorama,
-            thumbnail: photo.thumbnail,
+            panorama: photo.imageUrl,
+            thumbnail: photo.previewUrl,
           })),
         }],
       ],

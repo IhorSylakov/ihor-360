@@ -4,12 +4,10 @@ import LogoutButton from '@/components/LogoutButton';
 import styles from './index.module.css';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { useUser } from '@/context/UserContext';
 
-interface HeaderClientProps {
-  user: { username: string } | null;
-}
-
-export default function HeaderClient({ user }: HeaderClientProps) {
+export default function HeaderClient() {
+  const { state } = useUser();
   const [ isMenuOpened, setIsMenuOpened] = useState<boolean>(false);
   const navRef = useRef<HTMLDivElement | null>(null);
 
@@ -34,7 +32,7 @@ export default function HeaderClient({ user }: HeaderClientProps) {
     };
   }, [isMenuOpened]);
 
-  return (
+  return state.username && (
     <nav ref={navRef} className={styles.Nav}>
       <button
         onClick={handleOpenMenu}
@@ -48,28 +46,35 @@ export default function HeaderClient({ user }: HeaderClientProps) {
       </button>
       { isMenuOpened && (
         <ul className={styles.NavList}>
-          {user ? (
+          {/* {state.username ? ( */}
             <>
               <li className={styles.NavItem}>
                 Привет, 
                 <Link
-                  href={`/${user.username}`}
+                  href={`/${state.username}`}
                 >
-                  {user.username}
+                  {state.username}
                 </Link>!
               </li>
               <li className={styles.NavItem}>
                 <Link
-                  href={`/${user.username}/settings`}
+                  href={`/${state.username}/settings`}
                 >
                   Settings
+                </Link>
+              </li>
+              <li className={styles.NavItem}>
+                <Link
+                  href={`/${state.username}/add-photo`}
+                >
+                  Add Photo
                 </Link>
               </li>
               <li className={styles.NavItem}>
                 <LogoutButton />
               </li>
             </>
-          ) : (
+          {/* ) : (
             <>
               <li className={styles.NavItem}>
                 <Link
@@ -86,7 +91,7 @@ export default function HeaderClient({ user }: HeaderClientProps) {
                 </Link>
               </li>
             </>
-          )}
+          )} */}
         </ul>
       )}
     </nav>

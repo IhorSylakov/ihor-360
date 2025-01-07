@@ -1,117 +1,78 @@
-import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where, doc, getDoc } from 'firebase/firestore';
 import { db } from './firebase';
-import { City, Country, Photo, Place } from '@/types/types';
+import { City, Country, Place } from '@/types/types';
 
-async function findIdByName(
-  collectionName: string,
-  name: string,
-  userId?: string
-): Promise<string | null> {
-  const q = query(
-    collection(db, collectionName),
-    where('name', '==', name),
-    ...(userId ? [where('authorId', '==', userId)] : [])
-  );
-
-  const snapshot = await getDocs(q);
+export async function findUserId(username: string): Promise<string | null> {
+  const userQuery = query(collection(db, 'users'), where('username', '==', username));
+  const snapshot = await getDocs(userQuery);
   return snapshot.empty ? null : snapshot.docs[0].id;
 }
 
-async function findUserId(name: string | undefined): Promise<string | undefined> {
-  let userId: string | undefined;
-  if (name) {
-    const userQuery = query(
-      collection(db, 'users'),
-      where('username', '==', name)
-    );
-    const userSnapshot = await getDocs(userQuery);
-    if (!userSnapshot.empty) {
-      userId = userSnapshot.docs[0].id;
-    } else {
-      throw new Error(`"${userId}" не найден`);
-    }
-  }
-  return userId;
-}
-
-export async function fetchCountries(userName?: string): Promise<Country[]> {
-  const userId = await findUserId(userName);
-
-  const q = query(
-    collection(db, 'countries'),
-    ...(userId ? [where('authorId', '==', userId)] : [])
+export async function findCountryId(userId: string, countryName: string): Promise<string | null> {
+  const countryQuery = query(
+    collection(doc(db, `users/${userId}`), 'countries'),
+    where('name', '==', countryName)
   );
-
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Country[];
-
+  const snapshot = await getDocs(countryQuery);
+  return snapshot.empty ? null : snapshot.docs[0].id;
 }
 
-export async function fetchCities(countryName: string, userName?: string): Promise<City[]> {
-  const userId = await findUserId(userName);
-  const countryId = await findIdByName('countries', countryName, userId);
-  if (!countryId) {
-    throw new Error(`Страна "${countryName}" не найдена`);
-  }
-  const q = query(
-    collection(db, 'cities'),
-    where('countryId', '==', countryId),
-    ...(userId ? [where('authorId', '==', userId)] : [])
+export async function getCountryInfo(
+  userId: string,
+  countryId: string,
+): Promise<Country | null> {
+  const countryRef = doc(db, `users/${userId}/countries/`, countryId);
+  const snapshot = await getDoc(countryRef);
+
+  return snapshot.data() as Country;
+}
+
+export async function findCityId(
+  userId: string,
+  countryId: string,
+  cityName: string
+): Promise<string | null> {
+  const cityQuery = query(
+    collection(doc(db, `users/${userId}/countries/${countryId}`), 'cities'),
+    where('name', '==', cityName)
   );
-
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as City[];
+  const snapshot = await getDocs(cityQuery);
+  return snapshot.empty ? null : snapshot.docs[0].id;
 }
 
-export async function fetchPlaces(CityName: string, userName?: string): Promise<Place[]> {
-  const userId = await findUserId(userName);
-  const cityId = await findIdByName('cities', CityName, userId);
-  if (!cityId) {
-    throw new Error(`Город "${CityName}" не найден`);
-  }
+export async function getCityInfo(
+  userId: string,
+  countryId: string,
+  cityId: string
+): Promise<City | null> {
+  const cityRef = doc(db, `users/${userId}/countries/${countryId}/cities/`, cityId);
+  const snapshot = await getDoc(cityRef);
 
-  const q = query(
-    collection(db, 'places'),
-    where('cityId', '==', cityId),
-    ...(userId ? [where('authorId', '==', userId)] : [])
+  return snapshot.data() as City;
+}
+
+export async function findPlaceId(
+  userId: string,
+  countryId: string,
+  cityId: string,
+  placeName: string
+): Promise<string | null> {
+  const placeQuery = query(
+    collection(doc(db, `users/${userId}/countries/${countryId}/cities/${cityId}`), 'places'),
+    where('name', '==', placeName)
   );
-
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Place[];
+  const snapshot = await getDocs(placeQuery);
+  return snapshot.empty ? null : snapshot.docs[0].id;
 }
 
-export async function fetchPhotos(PlaceName: string, userName?: string): Promise<Photo[]> {
-  const userId = await findUserId(userName);
-  const placeId = await findIdByName('places', PlaceName, userId);
-  if (!placeId) {
-    throw new Error(`Место "${PlaceName}" не найдено`);
-  }
+export async function getPlaceInfo(
+  userId: string,
+  countryId: string,
+  cityId: string,
+  placeId: string
+): Promise<Place | null> {
+  const placeRef = doc(db, `users/${userId}/countries/${countryId}/cities/${cityId}/places`, placeId);
+  const snapshot = await getDoc(placeRef);
 
-  const q = query(
-    collection(db, 'photos'),
-    where('placeId', '==', placeId),
-    ...(userId ? [where('authorId', '==', userId)] : [])
-  );
-
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Photo[];
-}
-
-export async function fetchOnePhoto(PhotoId: string): Promise<Photo> {
-  const photoRef = doc(db, 'photos', PhotoId);
-  const photoSnapshot = await getDoc(photoRef);
-
-  return photoSnapshot.data() as Photo;
+  return snapshot.data() as Place;
 }

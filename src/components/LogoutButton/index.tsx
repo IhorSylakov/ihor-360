@@ -1,11 +1,15 @@
+import { auth } from '@/lib/firebase';
+import { signOut } from 'firebase/auth';
+import { useUser } from '@/context/UserContext';
+
 export default function LogoutButton() {
+  const { dispatch } = useUser();
+
   const handleLogout = async () => {
     try {
-      const res = await fetch('/api/auth/logout', { method: 'POST' });
-
-      if (!res.ok) {
-        throw new Error('Ошибка при выходе');
-      }
+      await signOut(auth);
+      dispatch({type: 'CLEAR_USER'});
+      sessionStorage.removeItem('user');
 
       window.location.href = '/login';
     } catch (error) {
@@ -20,8 +24,9 @@ export default function LogoutButton() {
         style={{
           padding: '0',
           background: 'none',
-          color: 'white',
+          color: 'inherit',
           border: 'none',
+          fontSize: 'inherit',
           borderRadius: '5px',
           cursor: 'pointer',
         }}

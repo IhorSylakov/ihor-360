@@ -1,8 +1,9 @@
-import { fetchPlaces } from '@/lib/firebaseHelpers';
 import Link from 'next/link';
-// import Image from 'next/image';
+import Image from 'next/image';
+import styles from '../../index.module.css';
+import { Place } from '@/types/types';
 
-interface CityPageProps {
+interface UserCityPage {
   params: Promise<{
     username: string;
     country: string;
@@ -10,36 +11,38 @@ interface CityPageProps {
   }>;
 }
 
-export default async function CityPage({ params }: CityPageProps) {
-  const { username, city, country } = await params;
-  const places = await fetchPlaces(city, username);
+export default async function CityPage({ params }: UserCityPage ) {
+  const { username, country, city } = await params;
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/${username}/${country}/${city}`);
+  if (!res.ok) {
+    return <div>Ошибка загрузки мест.</div>;
+  }
+
+  const data = await res.json();
 
   return (
     <div>
       <h1>{city} in {country}</h1>
-      <ul
-        style={{
-          display: 'grid',
-          gap: '15px',
-          listStyle: 'none',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(220px ,1fr))'
-        }}
-      >
-        {places.map((place) => (
+      <ul className={styles.List}>
+        {data.places.map((place: Place) => (
           <li key={place.id}>
-            <Link href={`/${username}/${country}/${city}/${place.name}`}>
-              {/* <Image
-                width={200}
-                height={100}
-                style={{ width: '100%', height: 'auto', aspectRatio: '2 / 1', objectFit: 'cover' }}
-                alt={`${place.name}`}
-                src={place.preview ? place.preview : preview + place.photos[0].panorama}
-              /> */}
-              {place.name}
+            <Link href={`/${username}/${country}/${city}/${place.name}`} className={styles.Link}>
+              {place.imageUrl &&
+                <Image
+                  width={150}
+                  height={75}
+                  className={styles.Image}
+                  alt={place.name}
+                  src={place.imageUrl}
+                />
+              }
+              <span className={styles.LinkText}>{place.name}</span>
             </Link>
           </li>
         ))}
       </ul>
+      <h2>{data.info.description}</h2>
     </div>
   );
 }

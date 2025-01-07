@@ -13,17 +13,19 @@ export interface Country {
 export interface City {
   id: string;
   name: string;
+  imageUrl: string;
 }
 
 export interface Place {
   id: string;
   name: string;
+  imageUrl: string;
 }
 
 export interface Photo {
   id: string;
-  panorama: string;
-  thumbnail: string;
+  imageUrl: string;
+  previewUrl: string;
   title: string;
   hide?: boolean;
   likes?: number;

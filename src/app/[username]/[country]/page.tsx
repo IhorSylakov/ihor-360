@@ -1,44 +1,47 @@
 import Link from 'next/link';
-// import Image from 'next/image';
-import { fetchCities } from '@/lib/firebaseHelpers';
+import Image from 'next/image';
+import styles from '../index.module.css';
+import { City } from '@/types/types';
 
-interface CountryPageProps {
+interface UserCountryPage {
   params: Promise<{
     username: string;
     country: string;
   }>;
 }
 
-export default async function CountryPage({ params }: CountryPageProps) {
+export default async function CountryPage({ params }: UserCountryPage ) {
   const { username, country } = await params;
-  const cities = await fetchCities(country, username);
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/${username}/${country}`);
+  if (!res.ok) {
+    return <div>Ошибка загрузки городов.</div>;
+  }
+
+  const data = await res.json();
 
   return (
     <div>
       <h1>{country}</h1>
-      <ul
-        style={{
-          display: 'grid',
-          gap: '15px',
-          listStyle: 'none',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(220px ,1fr))'
-        }}
-      >
-        {cities.map((city) => (
-          <li key={city.name}>
-            <Link href={`/${username}/${country}/${city.name}`}>
-              {/* <Image
-                width={200}
-                height={100}
-                style={{ width: '100%', height: 'auto', aspectRatio: '2 / 1', objectFit: 'cover' }}
-                alt={`${city.name}`}
-                src={city.preview}
-              /> */}
-              {city.name}
+      <ul className={styles.List}>
+        {data.cities.map((city: City) => (
+          <li key={city.id}>
+            <Link href={`/${username}/${country}/${city.name}`} className={styles.Link}>
+              {city.imageUrl &&
+                <Image
+                  width={150}
+                  height={75}
+                  className={styles.Image}
+                  alt={city.name}
+                  src={city.imageUrl}
+                />
+              }
+              <span className={styles.LinkText}>{city.name}</span>
             </Link>
           </li>
         ))}
       </ul>
+      {/* <div dangerouslySetInnerHTML={{ __html: data.info.description }} /> */}
     </div>
   );
 }
