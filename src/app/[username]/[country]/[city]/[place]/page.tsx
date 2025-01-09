@@ -1,4 +1,6 @@
+import Image from 'next/image';
 import PhotoViewer from '@/components/PhotoViewer';
+import { Photo } from '@/types/types';
 
 interface UserPlacePage {
   params: Promise<{
@@ -19,14 +21,34 @@ export default async function PlacePage({ params }: UserPlacePage ) {
 
   const data = await res.json();
 
+  const panoPhotos = await data.photos.filter((photo: Photo) => photo.isPano)
+  const justPhotos = await data.photos.filter((photo: Photo) => !photo.isPano)
+
   return (
     <div>
       <h1>{place} in {city}, {country}</h1>
-      <PhotoViewer
-        imageUrl={data.photos[0].imageUrl}
-        imagesList={data.photos}
-        containerHeight='400px'
-      />
+      {panoPhotos.length > 0 && (
+        <PhotoViewer
+          imageUrl={panoPhotos[0].imageUrl}
+          imagesList={panoPhotos}
+          containerHeight='400px'
+        />
+      )}
+      {justPhotos.length > 0 && (
+        <ul>
+          {justPhotos.map((photo: Photo) => (
+            <li key={photo.id}>
+              <Image
+                width={100}
+                height={100}
+                style={{ objectFit: 'cover' }}
+                alt=""
+                src={photo.imageUrl}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
       <h2>{data.info.description}</h2>
     </div>
   );

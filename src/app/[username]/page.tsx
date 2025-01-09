@@ -22,7 +22,7 @@ export default async function UserPage({ params }: UserPageProps) {
         {countries.map((country: { id: string; name: string }) => (
           <li key={country.id}>
             <Link href={`/${username}/${country.name}`} className={styles.Link}>
-              {country.name}
+              <span className={styles.LinkText}>{country.name}</span>
             </Link>
           </li>
         ))}

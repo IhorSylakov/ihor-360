@@ -3,9 +3,9 @@ interface Photo {
   panorama: string;
   thumbnail?: string;
   title?: string;
-  hide?: boolean;
+  isHidden: boolean;
   likes?: number;
-  type: '360' | 'plain';
+  isPano: boolean;
   options?: {
     caption: string;
     description?: string;
@@ -56,7 +56,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11233512",
                 panorama: "photo_11233512",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец маркизов Фронтейра 1",
                 options: {
                   caption: 'Дворец маркизов Фронтейра 1',
@@ -69,7 +70,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11233605",
                 panorama: "photo_11233605",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец маркизов Фронтейра 2",
                 options: {
                   caption: 'Дворец маркизов Фронтейра 2',
@@ -82,7 +84,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11233693",
                 panorama: "photo_11233693",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец маркизов Фронтейра 3",
                 options: {
                   caption: 'Дворец маркизов Фронтейра 3',
@@ -95,7 +98,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11233709",
                 panorama: "photo_11233709",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец маркизов Фронтейра 4",
                 options: {
                   caption: 'Дворец маркизов Фронтейра 4',
@@ -108,7 +112,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11240153",
                 panorama: "photo_11240153",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец маркизов Фронтейра 5",
                 options: {
                   caption: 'Дворец маркизов Фронтейра 5',
@@ -117,12 +122,12 @@ export const media: CountryName[] = [
                     'https://www.clickasnap.com/image/11240153/img-20241018-122429-00-008' +
                     '</a><br><br><ul style="display: flex;"><li>test 1</li><li>test 2</li></ul>',
                 },
-                hide: true,
               },
               {
                 id: "image-photo_11233723",
                 panorama: "photo_11233723",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец маркизов Фронтейра 6",
                 options: {
                   caption: 'Дворец маркизов Фронтейра 6',
@@ -135,7 +140,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11233727",
                 panorama: "photo_11233727",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец маркизов Фронтейра 7",
                 options: {
                   caption: 'Дворец маркизов Фронтейра 7',
@@ -148,7 +154,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11240144",
                 panorama: "photo_11240144",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец маркизов Фронтейра 8",
                 options: {
                   caption: 'Дворец маркизов Фронтейра 8',
@@ -161,7 +168,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11240145",
                 panorama: "photo_11240145",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец маркизов Фронтейра 9",
                 options: {
                   caption: 'Дворец маркизов Фронтейра 9',
@@ -174,7 +182,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11240147",
                 panorama: "photo_11240147",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец маркизов Фронтейра 10",
                 options: {
                   caption: 'Дворец маркизов Фронтейра 10',
@@ -187,7 +196,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11240151",
                 panorama: "photo_11240151",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец маркизов Фронтейра 11",
                 options: {
                   caption: 'Дворец маркизов Фронтейра 11',
@@ -200,7 +210,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11240183",
                 panorama: "photo_11240183",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец маркизов Фронтейра 12",
                 options: {
                   caption: 'Дворец маркизов Фронтейра 12',
@@ -213,7 +224,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11240197",
                 panorama: "photo_11240197",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец маркизов Фронтейра 13",
                 options: {
                   caption: 'Дворец маркизов Фронтейра 13',
@@ -233,7 +245,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11233731",
                 panorama: "photo_11233731",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Жеронимуш 1",
                 options: {
                   caption: 'Жеронимуш 1',
@@ -246,7 +259,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11240199",
                 panorama: "photo_11240199",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Жеронимуш 2",
                 options: {
                   caption: 'Жеронимуш 2',
@@ -259,7 +273,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11240214",
                 panorama: "photo_11240214",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Жеронимуш 3",
                 options: {
                   caption: 'Жеронимуш 3',
@@ -272,7 +287,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11244281",
                 panorama: "photo_11244281",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Жеронимуш 4",
                 options: {
                   caption: 'Жеронимуш 4',
@@ -285,7 +301,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11244287",
                 panorama: "photo_11244287",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Жеронимуш 5",
                 options: {
                   caption: 'Жеронимуш 5',
@@ -304,7 +321,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11233730",
                 panorama: "photo_11233730",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "По дороге от Дворца маркизов Фронтейра",
                 options: {
                   caption: 'По дороге от Дворца маркизов Фронтейра',
@@ -331,7 +349,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11233733",
                 panorama: "photo_11233733",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 1",
                 options: {
                   caption: 'Дворец Пена 1',
@@ -344,7 +363,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11244289",
                 panorama: "photo_11244289",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 2",
                 options: {
                   caption: 'Дворец Пена 2',
@@ -357,7 +377,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11244296",
                 panorama: "photo_11244296",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 3",
                 options: {
                   caption: 'Дворец Пена 3',
@@ -370,7 +391,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11244304",
                 panorama: "photo_11244304",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 4",
                 options: {
                   caption: 'Дворец Пена 4',
@@ -383,7 +405,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11244334",
                 panorama: "photo_11244334",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 5",
                 options: {
                   caption: 'Дворец Пена 5',
@@ -396,7 +419,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11244337",
                 panorama: "photo_11244337",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 6",
                 options: {
                   caption: 'Дворец Пена 6',
@@ -409,7 +433,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11244338",
                 panorama: "photo_11244338",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 7",
                 options: {
                   caption: 'Дворец Пена 7',
@@ -422,7 +447,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11244340",
                 panorama: "photo_11244340",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 8",
                 options: {
                   caption: 'Дворец Пена 8',
@@ -435,7 +461,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11244343",
                 panorama: "photo_11244343",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 9",
                 options: {
                   caption: 'Дворец Пена 9',
@@ -448,7 +475,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11252694",
                 panorama: "photo_11252694",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 10",
                 options: {
                   caption: 'Дворец Пена 10',
@@ -461,7 +489,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11252727",
                 panorama: "photo_11252727",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 11",
                 options: {
                   caption: 'Дворец Пена 11',
@@ -474,7 +503,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11252728",
                 panorama: "photo_11252728",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 12",
                 options: {
                   caption: 'Дворец Пена 12',
@@ -487,7 +517,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11252742",
                 panorama: "photo_11252742",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 13",
                 options: {
                   caption: 'Дворец Пена 13',
@@ -500,7 +531,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11252764",
                 panorama: "photo_11252764",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 14",
                 options: {
                   caption: 'Дворец Пена 14',
@@ -513,7 +545,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11252768",
                 panorama: "photo_11252768",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 15",
                 options: {
                   caption: 'Дворец Пена 15',
@@ -526,7 +559,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11252772",
                 panorama: "photo_11252772",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 16",
                 options: {
                   caption: 'Дворец Пена 16',
@@ -539,7 +573,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11252773",
                 panorama: "photo_11252773",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 17",
                 options: {
                   caption: 'Дворец Пена 17',
@@ -552,7 +587,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11261422",
                 panorama: "photo_11261422",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 18",
                 options: {
                   caption: 'Дворец Пена 18',
@@ -565,7 +601,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11261424",
                 panorama: "photo_11261424",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 19",
                 options: {
                   caption: 'Дворец Пена 19',
@@ -578,7 +615,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11261440",
                 panorama: "photo_11261440",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 20",
                 options: {
                   caption: 'Дворец Пена 20',
@@ -591,7 +629,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11261443",
                 panorama: "photo_11261443",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 21",
                 options: {
                   caption: 'Дворец Пена 21',
@@ -604,7 +643,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11261446",
                 panorama: "photo_11261446",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 22",
                 options: {
                   caption: 'Дворец Пена 22',
@@ -617,7 +657,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11285325",
                 panorama: "photo_11285325",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 23",
                 options: {
                   caption: 'Дворец Пена 23',
@@ -630,7 +671,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11285330",
                 panorama: "photo_11285330",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 24",
                 options: {
                   caption: 'Дворец Пена 24',
@@ -643,7 +685,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11285333",
                 panorama: "photo_11285333",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 25",
                 options: {
                   caption: 'Дворец Пена 25',
@@ -656,7 +699,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11285334",
                 panorama: "photo_11285334",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 26",
                 options: {
                   caption: 'Дворец Пена 26',
@@ -669,7 +713,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11285338",
                 panorama: "photo_11285338",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 27",
                 options: {
                   caption: 'Дворец Пена 27',
@@ -682,7 +727,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11285340",
                 panorama: "photo_11285340",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 28",
                 options: {
                   caption: 'Дворец Пена 28',
@@ -695,7 +741,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11285341",
                 panorama: "photo_11285341",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 29",
                 options: {
                   caption: 'Дворец Пена 29',
@@ -708,7 +755,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11285343",
                 panorama: "photo_11285343",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 30",
                 options: {
                   caption: 'Дворец Пена 30',
@@ -721,7 +769,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11289005",
                 panorama: "photo_11289005",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 31",
                 options: {
                   caption: 'Дворец Пена 31',
@@ -734,7 +783,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11289011",
                 panorama: "photo_11289011",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 32",
                 options: {
                   caption: 'Дворец Пена 32',
@@ -747,7 +797,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11289013",
                 panorama: "photo_11289013",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 33",
                 options: {
                   caption: 'Дворец Пена 33',
@@ -760,7 +811,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11289014",
                 panorama: "photo_11289014",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 34",
                 options: {
                   caption: 'Дворец Пена 34',
@@ -773,7 +825,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11289017",
                 panorama: "photo_11289017",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 35",
                 options: {
                   caption: 'Дворец Пена 35',
@@ -786,7 +839,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11289019",
                 panorama: "photo_11289019",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 36",
                 options: {
                   caption: 'Дворец Пена 36',
@@ -799,7 +853,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11289020",
                 panorama: "photo_11289020",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 37",
                 options: {
                   caption: 'Дворец Пена 37',
@@ -812,7 +867,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11289022",
                 panorama: "photo_11289022",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Пена 38",
                 options: {
                   caption: 'Дворец Пена 38',
@@ -832,7 +888,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11289024",
                 panorama: "photo_11289024",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Замок мавров 1",
                 options: {
                   caption: 'Замок мавров 1',
@@ -845,7 +902,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11289026",
                 panorama: "photo_11289026",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Замок мавров 2",
                 options: {
                   caption: 'Замок мавров 2',
@@ -858,7 +916,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11292767",
                 panorama: "photo_11292767",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Замок мавров 3",
                 options: {
                   caption: 'Замок мавров 3',
@@ -871,7 +930,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11292772",
                 panorama: "photo_11292772",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Замок мавров 4",
                 options: {
                   caption: 'Замок мавров 4',
@@ -884,7 +944,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11292777",
                 panorama: "photo_11292777",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Замок мавров 5",
                 options: {
                   caption: 'Замок мавров 5',
@@ -897,7 +958,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11292782",
                 panorama: "photo_11292782",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Замок мавров 6",
                 options: {
                   caption: 'Замок мавров 6',
@@ -910,7 +972,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11292786",
                 panorama: "photo_11292786",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Замок мавров 7",
                 options: {
                   caption: 'Замок мавров 7',
@@ -923,7 +986,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11292788",
                 panorama: "photo_11292788",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Замок мавров 8",
                 options: {
                   caption: 'Замок мавров 8',
@@ -936,7 +1000,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11292790",
                 panorama: "photo_11292790",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Замок мавров 9",
                 options: {
                   caption: 'Замок мавров 9',
@@ -949,7 +1014,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11292791",
                 panorama: "photo_11292791",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Замок мавров 10",
                 options: {
                   caption: 'Замок мавров 10',
@@ -962,7 +1028,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11292794",
                 panorama: "photo_11292794",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Замок мавров 11",
                 options: {
                   caption: 'Замок мавров 11',
@@ -975,7 +1042,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11292797",
                 panorama: "photo_11292797",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Замок мавров 12",
                 options: {
                   caption: 'Замок мавров 12',
@@ -988,7 +1056,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11302204",
                 panorama: "photo_11302204",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Замок мавров 13",
                 options: {
                   caption: 'Замок мавров 13',
@@ -1007,7 +1076,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11302212",
                 panorama: "photo_11302212",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Где-то в Синтре 1",
                 options: {
                   caption: 'Где-то в Синтре 1',
@@ -1020,7 +1090,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11302214",
                 panorama: "photo_11302214",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Где-то в Синтре 2",
                 options: {
                   caption: 'Где-то в Синтре 2',
@@ -1040,7 +1111,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11302218",
                 panorama: "photo_11302218",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Монсеррат 1",
                 options: {
                   caption: 'Дворец Монсеррат 1',
@@ -1053,7 +1125,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11302223",
                 panorama: "photo_11302223",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Монсеррат 2",
                 options: {
                   caption: 'Дворец Монсеррат 2',
@@ -1066,7 +1139,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11302230",
                 panorama: "photo_11302230",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Монсеррат 3",
                 options: {
                   caption: 'Дворец Монсеррат 3',
@@ -1079,7 +1153,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11302234",
                 panorama: "photo_11302234",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Монсеррат 4",
                 options: {
                   caption: 'Дворец Монсеррат 4',
@@ -1092,7 +1167,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11302237",
                 panorama: "photo_11302237",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Монсеррат 5",
                 options: {
                   caption: 'Дворец Монсеррат 5',
@@ -1105,7 +1181,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11302239",
                 panorama: "photo_11302239",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Монсеррат 6",
                 options: {
                   caption: 'Дворец Монсеррат 6',
@@ -1118,7 +1195,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11308688",
                 panorama: "photo_11308688",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Монсеррат 7",
                 options: {
                   caption: 'Дворец Монсеррат 7',
@@ -1131,7 +1209,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11308725",
                 panorama: "photo_11308725",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Монсеррат 8",
                 options: {
                   caption: 'Дворец Монсеррат 8',
@@ -1144,7 +1223,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11308732",
                 panorama: "photo_11308732",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Монсеррат 9",
                 options: {
                   caption: 'Дворец Монсеррат 9',
@@ -1157,7 +1237,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11308733",
                 panorama: "photo_11308733",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Монсеррат 10",
                 options: {
                   caption: 'Дворец Монсеррат 10',
@@ -1170,7 +1251,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11308739",
                 panorama: "photo_11308739",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Монсеррат 11",
                 options: {
                   caption: 'Дворец Монсеррат 11',
@@ -1183,7 +1265,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11308743",
                 panorama: "photo_11308743",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Монсеррат 12",
                 options: {
                   caption: 'Дворец Монсеррат 12',
@@ -1196,7 +1279,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11308748",
                 panorama: "photo_11308748",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Монсеррат 13",
                 options: {
                   caption: 'Дворец Монсеррат 13',
@@ -1209,7 +1293,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11308753",
                 panorama: "photo_11308753",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Монсеррат 14",
                 options: {
                   caption: 'Дворец Монсеррат 14',
@@ -1222,7 +1307,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11308755",
                 panorama: "photo_11308755",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Дворец Монсеррат 15",
                 options: {
                   caption: 'Дворец Монсеррат 15',
@@ -1242,7 +1328,8 @@ export const media: CountryName[] = [
               {
                 id: "image-photo_11308757",
                 panorama: "photo_11308757",
-                type: "360",
+                isPano: true,
+                isHidden: false,
                 title: "Мыс Рока 1",
                 options: {
                   caption: 'Мыс Рока 1',
@@ -1255,7 +1342,8 @@ export const media: CountryName[] = [
               // {
               //   id: "image-photo_aaaaaaa",
               //   panorama: "photo_aaaaaaa",
-              //   type: "360",
+              //   isPano: true,
+              //   isHidden: false,
               //   title: "Мыс Рока 1",
               //   options: {
               //     caption: 'Мыс Рока 1',
@@ -1275,7 +1363,8 @@ export const media: CountryName[] = [
           //     {
           //       id: "image-photo_11308757",
           //       panorama: "photo_11308757",
-          //       type: "360",
+          //       isPano: true,
+          //       isHidden: false,
           //       title: "Кинта да Регалейра 1",
           //       options: {
           //         caption: 'Кинта да Регалейра 1',
@@ -1288,7 +1377,8 @@ export const media: CountryName[] = [
           //     {
           //       id: "image-photo_aaaaaaa",
           //       panorama: "photo_aaaaaaa",
-          //       type: "360",
+          //       isPano: true,
+          //       isHidden: false,
           //       title: "Кинта да Регалейра 1",
           //       options: {
           //         caption: 'Кинта да Регалейра 1',
@@ -1319,7 +1409,8 @@ export const media: CountryName[] = [
   //             {
   //               id: "image-photo_11233733",
   //               panorama: "photo_11233733",
-  //               type: "360",
+  //               isPano: true,
+//                 isHidden: false,
   //               title: "Place name 1",
   //               options: {
   //                 caption: 'Place name 1',

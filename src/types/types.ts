@@ -27,7 +27,8 @@ export interface Photo {
   imageUrl: string;
   previewUrl: string;
   title: string;
-  hide?: boolean;
+  isHidden: boolean;
+  isPano: boolean;
   likes?: number;
   description?: string;
 }
