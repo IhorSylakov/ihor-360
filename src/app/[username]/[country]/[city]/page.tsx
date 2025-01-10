@@ -28,15 +28,13 @@ export default async function CityPage({ params }: UserCityPage ) {
         {data.places.map((place: Place) => (
           <li key={place.id}>
             <Link href={`/${username}/${country}/${city}/${place.name}`} className={styles.Link}>
-              {place.imageUrl &&
-                <Image
-                  width={150}
-                  height={75}
-                  className={styles.Image}
-                  alt={place.name}
-                  src={place.imageUrl}
-                />
-              }
+              <Image
+                width={150}
+                height={75}
+                className={styles.Image}
+                alt={place.name}
+                src={place.imageUrl === '' ? data.info.imageUrl : place.imageUrl}
+              />
               <span className={styles.LinkText}>{place.name}</span>
             </Link>
           </li>

@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { collection, query, where, getDocs, addDoc, doc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-// import { media } from '@/data/countryData';
 import { UserData } from '@/types/types';
 import { useParams } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
@@ -87,6 +86,7 @@ export default function SettingsPage() {
             for (const photo of place.photos) {
               await addDoc(collection(placeRef, 'photos'), {
                 imageUrl: photo.imageUrl,
+                previewUrl: photo.previewUrl,
                 isPano: photo.isPano,
                 isHidden: photo.isHidden,
                 name: photo.name,
@@ -103,52 +103,38 @@ export default function SettingsPage() {
     }
   };
 
-  // if (loading) {
-  //   return <>loading...</>
-  // }
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(`/api/backup?userId=${userId}`);
 
-  // if (!userData) {
-  //   return <>no data...</>
-  // }
+      if (!response.ok) {
+        throw new Error('Ошибка при загрузке данных.');
+      }
 
-  // const handleExport = () => {
-  //   const jsonString = JSON.stringify(media, null, 2);
-  //   const blob = new Blob([jsonString], { type: 'application/json' });
+      const { countries } = await response.json();
+      const blob = new Blob([JSON.stringify(countries, null, 2)], { type: 'application/json' });
 
-  //   const url = URL.createObjectURL(blob);
-  //   const link = document.createElement('a');
-  //   link.href = url;
-  //   link.download = 'countryData.json';
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'countries-data.json';
+      link.click();
 
-  //   link.click();
-  //   URL.revokeObjectURL(url);
-  // };
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading data:', error);
+      alert('Ошибка при скачивании данных.');
+    }
+  };
 
-  if (!userId) return <p>Loading...</p>;
+  if (!userId) return <p>You are not logged in!</p>;
 
   return (
     <div>
       <h1>Settings</h1>
       <br />
       <br />
-      {state.username === username && (
-        <pre>{JSON.stringify(userData, null, 2)}</pre>
-      )}
-      {/* <br />
-      <br />
-      <button
-        onClick={handleExport}
-        style={{
-          padding: '10px 20px',
-          backgroundColor: '#0070f3',
-          color: 'white',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer',
-        }}
-      >
-        Export data
-      </button> */}
+      <pre>{JSON.stringify(userData, null, 2)}</pre>
       <br />
       <br />
       <h2>Загрузить данные</h2>
@@ -159,6 +145,12 @@ export default function SettingsPage() {
       {loading && <p>Загрузка...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {success && <p style={{ color: 'green' }}>Данные успешно загружены!</p>}
+      <br />
+      <br />
+      <h2>Скачать данные</h2>
+      <button onClick={handleDownload}>
+        Скачать
+      </button>
     </div>
   );
 }
