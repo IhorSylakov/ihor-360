@@ -1,6 +1,8 @@
+import sanitizeHtml from 'sanitize-html';
 import Image from 'next/image';
 import PhotoViewer from '@/components/PhotoViewer';
 import { Photo } from '@/types/types';
+import styles from '../../../index.module.css';
 
 interface UserPlacePage {
   params: Promise<{
@@ -49,7 +51,12 @@ export default async function PlacePage({ params }: UserPlacePage ) {
           ))}
         </ul>
       )}
-      <h2>{data.info.description}</h2>
+      {data.info.description && (
+        <div
+          className={styles.Content}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.info.description) }}
+        />
+      )}
     </div>
   );
 }

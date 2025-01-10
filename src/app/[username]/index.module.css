@@ -38,3 +38,8 @@ img + .LinkText {
   color: var(--background);
   background: linear-gradient(to top, var(--foreground), transparent);
 }
+
+.Content * {
+  padding: revert;
+  margin: revert;
+}
