@@ -26,7 +26,7 @@ export default async function PlacePage({ params }: UserPlacePage ) {
 
   return (
     <div>
-      <h1>{place} in {city}, {country}</h1>
+      <h1>{data.info.name}</h1>
       {panoPhotos.length > 0 && (
         <PhotoViewer
           imageUrl={panoPhotos[0].imageUrl}

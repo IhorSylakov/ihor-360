@@ -23,7 +23,7 @@ export default async function CityPage({ params }: UserCityPage ) {
 
   return (
     <div>
-      <h1>{city} in {country}</h1>
+      <h1>{data.info.name}</h1>
       <ul className={styles.List}>
         {data.places.map((place: Place) => (
           <li key={place.id}>

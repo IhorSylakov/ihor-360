@@ -135,7 +135,7 @@ const PhotoSection: React.FC<PhotoSectionProps> = ({ authorId, countryId, cityId
             <input
               type="text"
               placeholder="Введите URL изображения"
-              defaultValue={newPhoto.imageUrl}
+              value={newPhoto.imageUrl}
               onChange={(e) => setNewPhoto({ ...newPhoto, imageUrl: e.target.value })}
             />
           </div>
