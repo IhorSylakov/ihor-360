@@ -1,0 +1,103 @@
+.Card {
+  --indent-size: 4px;
+
+  display: flex;
+  flex-grow: 1;
+  color: inherit;
+  flex-direction: column;
+}
+
+.Card:hover {
+  color: inherit;
+}
+
+.Content {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  color: var(--theme-color);
+  padding: 20px;
+  border: 2px solid transparent;
+  background: var(--card-tool-bg, var(--light-purple-1));
+  border-radius: var(--corner-border-radius);
+}
+
+@media only screen and (min-width: 1024px) {
+  .Content {
+    transition:
+      color var(--transition-default),
+      margin var(--transition-default),
+      padding var(--transition-default),
+      box-shadow var(--transition-default),
+      border-color var(--transition-default);
+  }
+
+  .Card:hover .Content {
+    color: var(--theme-color);
+    margin: calc(-1 * var(--indent-size));
+    padding: calc(var(--indent-size) + 20px);
+    box-shadow: 0 2px 10px currentColor;
+    border-color: currentColor;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .Content {
+    padding: 0;
+  }
+}
+
+.Title {
+  font-size: 1.3rem;
+  margin-bottom: 0.8em;
+  font-weight: bold;
+}
+
+.Text {
+  flex-grow: 1;
+  font-size: 1.2rem;
+  color: initial;
+}
+
+@media only screen and (max-width: 1024px) {
+  .Text {
+    font-size: 20px;
+    line-height: 26px;
+    font-weight: 600;
+  }
+}
+
+.Image {
+  display: flex;
+  width: 100%;
+  aspect-ratio: 2/1;
+  align-items: center;
+  margin: 0 auto 30px;
+  overflow: hidden;
+  justify-content: center;
+}
+
+.Image img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.Icon {
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  width: 74px;
+  padding: 10px;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+  align-items: center;
+  margin: 0 auto 30px;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 1024px) {
+  .Icon {
+    margin-bottom: 20px;
+    width: 60px;
+  }
+}

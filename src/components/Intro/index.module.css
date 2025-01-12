@@ -1,0 +1,55 @@
+.IntroWrapper {
+  --simb: 60px;
+  --sipt: 60px;
+  --sipb: 60px;
+  --letter-spacing: 0;
+
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--outer-simb, var(--simb));
+  padding-top: var(--outer-sipt, var(--sipt));
+  padding-bottom: var(--outer-sipb, var(--sipb));
+  color: var(--sitc, var(--color-text-darken));
+  background-color: var(--sibc, var(--light-gray-2));
+  min-height: calc(100vh - var(--public-notification-height));
+}
+
+@media only screen and (max-width: 1024px) {
+  .IntroWrapper {
+    --simb: 40px;
+    --sipt: 40px;
+    --sipb: 40px;
+
+    min-height: auto;
+  }
+}
+
+.Intro {
+  --sitc: #fff;
+  --sibc: #fa7e52;
+  --button-bg: var(--sibc);
+  --button-color: var(--sitc);
+  --button-bd-color: var(--sitc);
+  --grid-gap: var(--outer-grid-gap, 30px);
+  --left-col: var(--outer-left-col, minmax(500px, 50%));
+  --right-col: var(--outer-right-col, 1fr);
+  --column-align: var(--outer-column-align, center);
+}
+
+.Intro__container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--landing-content-indents-px);
+  max-width: var(--landing-content-width);
+}
+
+.Intro__image {
+  align-self: flex-end;
+}
+
+@media only screen and (max-width: 768px) {
+  .Intro__image {
+    align-self: center;
+  }
+}

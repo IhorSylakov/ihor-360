@@ -32,3 +32,10 @@ export interface Photo {
   likes?: number;
   description?: string;
 }
+
+export interface listItem {
+  image?: string,
+  icon?: string,
+  title: string,
+  text: string,
+}

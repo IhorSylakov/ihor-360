@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, addDoc, getDocs, doc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Bold from '@tiptap/extension-bold';
-import Italic from '@tiptap/extension-italic';
-import BulletList from '@tiptap/extension-bullet-list';
-import Heading from '@tiptap/extension-heading';
+import Editor from '../Editor';
 
 interface Place {
   id: string;
@@ -30,20 +25,6 @@ const PlaceSection: React.FC<PlaceSectionProps> = ({ authorId, countryId, cityId
   const [newPlace, setNewPlace] = useState({ name: '', description: '', visitDate: '', notes: '', imageUrl: '' });
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState('');
-
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Bold,
-      Italic,
-      BulletList,
-      Heading.configure({ levels: [1, 2, 3] }), // Поддержка заголовков H1, H2, H3
-    ],
-    content: '<p>Введите описание места...</p>',
-    onUpdate: ({ editor }) => {
-      setNewPlace((prev) => ({ ...prev, description: editor.getHTML() }));
-    },
-  });
 
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -88,7 +69,6 @@ const PlaceSection: React.FC<PlaceSectionProps> = ({ authorId, countryId, cityId
   const handleCancelForm = () => {
     setShowForm(false);
     setNewPlace({ name: '', description: '', visitDate: '', notes: '', imageUrl: '' });
-    editor?.commands.setContent('<p>Введите описание места...</p>');
   };
 
   return (
@@ -103,10 +83,9 @@ const PlaceSection: React.FC<PlaceSectionProps> = ({ authorId, countryId, cityId
             value={newPlace.name}
             onChange={(e) => setNewPlace({ ...newPlace, name: e.target.value })}
           />
-          <div>
-            <label>Описание:</label>
-            <EditorContent editor={editor} />
-          </div>
+
+          <Editor content={newPlace.description} onUpdate={(updatedContent) => setNewPlace((prev) => ({ ...prev, description: updatedContent}))} />
+
           <input
             type="date"
             placeholder="Дата посещения (необязательно)"

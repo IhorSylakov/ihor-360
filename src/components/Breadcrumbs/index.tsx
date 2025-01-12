@@ -27,7 +27,7 @@ const Breadcrumbs = () => {
   });
 
   return (
-    <nav aria-label="Breadcrumbs" className="my-4">
+    <nav style={{ marginRight: 'auto' }}>
       <div className="text-sm">{breadcrumbs}</div>
     </nav>
   );

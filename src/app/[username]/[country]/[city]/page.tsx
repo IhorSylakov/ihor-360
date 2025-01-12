@@ -22,25 +22,27 @@ export default async function CityPage({ params }: UserCityPage ) {
   const data = await res.json();
 
   return (
-    <div>
-      <h1>{data.info.name}</h1>
-      <ul className={styles.List}>
-        {data.places.map((place: Place) => (
-          <li key={place.id}>
-            <Link href={`/${username}/${country}/${city}/${place.name}`} className={styles.Link}>
-              <Image
-                width={150}
-                height={75}
-                className={styles.Image}
-                alt={place.name}
-                src={place.imageUrl === '' ? data.info.imageUrl : place.imageUrl}
-              />
-              <span className={styles.LinkText}>{place.name}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <h2>{data.info.description}</h2>
+    <div className="page">
+      <div className="page-content">
+        <h1>{data.info.name}</h1>
+        <ul className={styles.List}>
+          {data.places.map((place: Place) => (
+            <li key={place.id}>
+              <Link href={`/${username}/${country}/${city}/${place.name}`} className={styles.Link}>
+                <Image
+                  width={150}
+                  height={75}
+                  className={styles.Image}
+                  alt={place.name}
+                  src={place.imageUrl === '' ? data.info.imageUrl : place.imageUrl}
+                />
+                <span className={styles.LinkText}>{place.name}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <h2>{data.info.description}</h2>
+      </div>
     </div>
   );
 }

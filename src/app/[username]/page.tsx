@@ -16,17 +16,19 @@ export default async function UserPage({ params }: UserPageProps) {
   const { countries } = await res.json();
 
   return (
-    <div>
-      {/* <h1>Страны пользователя {username}</h1> */}
-      <ul className={styles.List}>
-        {countries.map((country: { id: string; name: string }) => (
-          <li key={country.id}>
-            <Link href={`/${username}/${country.name}`} className={styles.Link}>
-              <span className={styles.LinkText}>{country.name}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div className="page">
+      <div className="page-content">
+        {/* <h1>Страны пользователя {username}</h1> */}
+        <ul className={styles.List}>
+          {countries.map((country: { id: string; name: string }) => (
+            <li key={country.id}>
+              <Link href={`/${username}/${country.name}`} className={styles.Link}>
+                <span className={styles.LinkText}>{country.name}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

@@ -12,11 +12,15 @@
   height: 100%;
   position: relative;
   align-items: center;
-  min-height: 28px;
+  min-height: 38px;
   max-height: 150px;
   overflow: hidden;
   border-radius: 10px;
-  border: 1px solid var(--foreground);
+  border: 2px solid var(--foreground);
+}
+
+.Link:hover {
+  border-color: var(--theme-color);
 }
 
 .Image {
@@ -31,12 +35,17 @@
   font-weight: bold;
   text-align: center;
   line-height: 28px;
+  padding-block: 5px;
+  color: var(--foreground);
+  background: linear-gradient(to top, var(--background), transparent);
 }
 
 img + .LinkText {
   bottom: 0;
-  color: var(--background);
-  background: linear-gradient(to top, var(--foreground), transparent);
+}
+
+.Link:hover .LinkText {
+  color: var(--theme-color);
 }
 
 .Content * {
