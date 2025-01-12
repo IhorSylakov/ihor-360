@@ -3,6 +3,7 @@
 import AddForm from '@/components/AddForm';
 import { useUser } from '@/context/UserContext';
 import { useParams } from 'next/navigation';
+import '../index.module.css';
 
 export default function AddPhotoPage() {
   const { state } = useUser();
@@ -17,9 +18,11 @@ export default function AddPhotoPage() {
   }
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Добавить фотографию</h1>
-      <AddForm authorId={state.uid} />
+    <div className="page">
+      <div className="page-content">
+        <h1>Добавить фотографию</h1>
+        <AddForm authorId={state.uid} />
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { collection, addDoc, getDocs, doc } from 'firebase/firestore';
+import { collection, doc, addDoc, getDocs, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import Editor from '../Editor';
 
 interface City {
   id: string;
@@ -20,7 +21,7 @@ interface CitySectionProps {
 
 const CitySection: React.FC<CitySectionProps> = ({ authorId, countryId, onSelectCity, onNextSection }) => {
   const [cities, setCities] = useState<City[]>([]);
-  const [newCity, setNewCity] = useState({ name: '', description: '', visitDate: '', notes: '', imageUrl: '' });
+  const [currentCity, setCurrentCity] = useState<City | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState('');
 
@@ -29,8 +30,8 @@ const CitySection: React.FC<CitySectionProps> = ({ authorId, countryId, onSelect
       try {
         const countryCitiesRef = collection(doc(db, 'users', authorId), `countries/${countryId}/cities`);
         const querySnapshot = await getDocs(countryCitiesRef);
-        const countryCities = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as City));
-        setCities(countryCities);
+        const fetchedCities = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as City));
+        setCities(fetchedCities);
       } catch (error) {
         console.error('Error fetching cities:', error);
         setError('Ошибка при загрузке городов.');
@@ -40,33 +41,47 @@ const CitySection: React.FC<CitySectionProps> = ({ authorId, countryId, onSelect
     fetchCities();
   }, [authorId, countryId]);
 
-  const handleAddCity = async () => {
+  const handleSaveCity = async () => {
     setError('');
-    if (!/^[a-zA-Z ]+$/.test(newCity.name)) {
+    if (!/^[a-zA-Z ]+$/.test(currentCity?.name || '')) {
       setError('Название города должно быть на английском языке.');
       return;
     }
 
     try {
-      const countryCitiesRef = collection(doc(db, 'users', authorId), `countries/${countryId}/cities`);
-      const docRef = await addDoc(countryCitiesRef, newCity);
-      const addedCity = { id: docRef.id, ...newCity };
-
-      setCities([...cities, addedCity]);
-      setNewCity({ name: '', description: '', visitDate: '', notes: '', imageUrl: '' });
+      if (currentCity?.id) {
+        // Редактирование существующего города
+        const placeRef = doc(db, 'users', authorId, `countries/${countryId}/cities`, currentCity.id);
+        const { ...placeData } = currentCity;
+        await updateDoc(placeRef, placeData);
+        setCities((prev) =>
+          prev.map((place) => (place.id === currentCity.id ? { ...place, ...currentCity } : place))
+        );
+      } else {
+        // Добавление нового города
+        const countryCitiesRef = collection(doc(db, 'users', authorId), `countries/${countryId}/cities`);
+        const docRef = await addDoc(countryCitiesRef, currentCity);
+        setCities([...cities, { id: docRef.id, ...currentCity } as City]);
+        onSelectCity(docRef.id);
+        onNextSection();
+      }
+      
       setShowForm(false);
-
-      onSelectCity(docRef.id);
-      onNextSection();
+      setCurrentCity(null);
     } catch (error) {
       console.error('Error adding city:', error);
       setError('Ошибка при добавлении города.');
     }
   };
 
+  const handleEdit = (city: City) => {
+    setCurrentCity(city);
+    setShowForm(true);
+  };
+
   const handleCancelForm = () => {
     setShowForm(false);
-    setNewCity({ name: '', description: '', visitDate: '', notes: '', imageUrl: '' });
+    setCurrentCity(null);
   };
 
   return (
@@ -78,33 +93,34 @@ const CitySection: React.FC<CitySectionProps> = ({ authorId, countryId, onSelect
           <input
             type="text"
             placeholder="Название города"
-            value={newCity.name}
-            onChange={(e) => setNewCity({ ...newCity, name: e.target.value })}
+            value={currentCity?.name}
+            onChange={(e) => setCurrentCity((prev) => ({ ...prev!, name: e.target.value }))}
           />
-          <textarea
-            placeholder="Описание (необязательно)"
-            value={newCity.description}
-            onChange={(e) => setNewCity({ ...newCity, description: e.target.value })}
+          <Editor
+            content={currentCity?.description || ''}
+            onUpdate={(updatedContent) =>
+              setCurrentCity((prev) => ({ ...prev!, description: updatedContent }))
+            }
           />
           <input
             type="date"
             placeholder="Дата посещения (необязательно)"
-            value={newCity.visitDate}
-            onChange={(e) => setNewCity({ ...newCity, visitDate: e.target.value })}
+            value={currentCity?.visitDate}
+            onChange={(e) => setCurrentCity((prev) => ({ ...prev!, visitDate: e.target.value }))}
           />
           <textarea
             placeholder="Заметки (необязательно)"
-            value={newCity.notes}
-            onChange={(e) => setNewCity({ ...newCity, notes: e.target.value })}
+            value={currentCity?.notes}
+            onChange={(e) => setCurrentCity((prev) => ({ ...prev!, notes: e.target.value }))}
           />
           <input
             type="text"
             placeholder="Ссылка на изображение (необязательно)"
-            value={newCity.imageUrl}
-            onChange={(e) => setNewCity({ ...newCity, imageUrl: e.target.value })}
+            value={currentCity?.imageUrl}
+            onChange={(e) => setCurrentCity((prev) => ({ ...prev!, imageUrl: e.target.value }))}
           />
           {error && <p style={{ color: 'red' }}>{error}</p>}
-          <button onClick={handleAddCity}>Добавить город</button>
+          <button onClick={handleSaveCity}>{currentCity?.id ? 'Сохранить изменения' : 'Добавить город'}</button>
           <button onClick={handleCancelForm}>Отмена</button>
         </div>
       ) : (
@@ -118,11 +134,17 @@ const CitySection: React.FC<CitySectionProps> = ({ authorId, countryId, onSelect
                   <button onClick={() => { onSelectCity(city.id); onNextSection(); }}>
                     {city.name}
                   </button>
+                  <button onClick={() => handleEdit(city)}>Edit</button>
                 </li>
               ))
             )}
           </ul>
-          <button onClick={() => setShowForm(true)}>Добавить новый город</button>
+          <button onClick={() => {
+            setCurrentCity(null);
+            setShowForm(true);
+          }}>
+            Добавить новый город
+          </button>
         </div>
       )}
     </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, addDoc, getDocs, doc } from 'firebase/firestore';
+import { collection, doc, getDocs, updateDoc, addDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import Editor from '../Editor';
 
@@ -22,7 +22,7 @@ interface PlaceSectionProps {
 
 const PlaceSection: React.FC<PlaceSectionProps> = ({ authorId, countryId, cityId, onSelectPlace, onNextSection }) => {
   const [places, setPlaces] = useState<Place[]>([]);
-  const [newPlace, setNewPlace] = useState({ name: '', description: '', visitDate: '', notes: '', imageUrl: '' });
+  const [currentPlace, setCurrentPlace] = useState<Place | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState('');
 
@@ -31,8 +31,8 @@ const PlaceSection: React.FC<PlaceSectionProps> = ({ authorId, countryId, cityId
       try {
         const cityPlacesRef = collection(doc(db, 'users', authorId), `countries/${countryId}/cities/${cityId}/places`);
         const querySnapshot = await getDocs(cityPlacesRef);
-        const countryPlaces = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Place));
-        setPlaces(countryPlaces);
+        const fetchedPlaces = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Place));
+        setPlaces(fetchedPlaces);
       } catch (error) {
         console.error('Error fetching places:', error);
         setError('Ошибка при загрузке мест.');
@@ -42,33 +42,45 @@ const PlaceSection: React.FC<PlaceSectionProps> = ({ authorId, countryId, cityId
     fetchPlaces();
   }, [authorId, countryId, cityId]);
 
-  const handleAddPlace = async () => {
+  const handleSavePlace = async () => {
     setError('');
-    if (!/^[a-zA-Z ]+$/.test(newPlace.name)) {
+    if (!/^[a-zA-Z ]+$/.test(currentPlace?.name || '')) {
       setError('Название места должно быть на английском языке.');
       return;
     }
 
     try {
-      const cityPlacesRef = collection(doc(db, 'users', authorId), `countries/${countryId}/cities/${cityId}/places`);
-      const docRef = await addDoc(cityPlacesRef, newPlace);
-      const addedPlace = { id: docRef.id, ...newPlace };
+      if (currentPlace?.id) {
+        // Редактирование существующего места
+        const placeRef = doc(db, 'users', authorId, `countries/${countryId}/cities/${cityId}/places`, currentPlace.id);
+        const { ...placeData } = currentPlace;
+        await updateDoc(placeRef, placeData);
+        setPlaces((prev) =>
+          prev.map((place) => (place.id === currentPlace.id ? { ...place, ...currentPlace } : place))
+        );
+      } else {
+        // Добавление нового места
+        const cityPlacesRef = collection(doc(db, 'users', authorId), `countries/${countryId}/cities/${cityId}/places`);
+        const docRef = await addDoc(cityPlacesRef, currentPlace);
+        setPlaces([...places, { id: docRef.id, ...currentPlace } as Place]);
+      }
 
-      setPlaces([...places, addedPlace]);
-      setNewPlace({ name: '', description: '', visitDate: '', notes: '', imageUrl: '' });
       setShowForm(false);
-
-      onSelectPlace(docRef.id);
-      onNextSection();
+      setCurrentPlace(null);
     } catch (error) {
-      console.error('Error adding place:', error);
-      setError('Ошибка при добавлении места.');
+      console.error('Error saving place:', error);
+      setError('Ошибка при сохранении места.');
     }
+  };
+
+  const handleEdit = (place: Place) => {
+    setCurrentPlace(place);
+    setShowForm(true);
   };
 
   const handleCancelForm = () => {
     setShowForm(false);
-    setNewPlace({ name: '', description: '', visitDate: '', notes: '', imageUrl: '' });
+    setCurrentPlace(null);
   };
 
   return (
@@ -80,31 +92,34 @@ const PlaceSection: React.FC<PlaceSectionProps> = ({ authorId, countryId, cityId
           <input
             type="text"
             placeholder="Название места"
-            value={newPlace.name}
-            onChange={(e) => setNewPlace({ ...newPlace, name: e.target.value })}
+            value={currentPlace?.name || ''}
+            onChange={(e) => setCurrentPlace((prev) => ({ ...prev!, name: e.target.value }))}
           />
-
-          <Editor content={newPlace.description} onUpdate={(updatedContent) => setNewPlace((prev) => ({ ...prev, description: updatedContent}))} />
-
+          <Editor
+            content={currentPlace?.description || ''}
+            onUpdate={(updatedContent) =>
+              setCurrentPlace((prev) => ({ ...prev!, description: updatedContent }))
+            }
+          />
           <input
             type="date"
             placeholder="Дата посещения (необязательно)"
-            value={newPlace.visitDate}
-            onChange={(e) => setNewPlace({ ...newPlace, visitDate: e.target.value })}
+            value={currentPlace?.visitDate || ''}
+            onChange={(e) => setCurrentPlace((prev) => ({ ...prev!, visitDate: e.target.value }))}
           />
           <textarea
             placeholder="Заметки (необязательно)"
-            value={newPlace.notes}
-            onChange={(e) => setNewPlace({ ...newPlace, notes: e.target.value })}
+            value={currentPlace?.notes || ''}
+            onChange={(e) => setCurrentPlace((prev) => ({ ...prev!, notes: e.target.value }))}
           />
           <input
             type="text"
             placeholder="Ссылка на изображение (необязательно)"
-            value={newPlace.imageUrl}
-            onChange={(e) => setNewPlace({ ...newPlace, imageUrl: e.target.value })}
+            value={currentPlace?.imageUrl || ''}
+            onChange={(e) => setCurrentPlace((prev) => ({ ...prev!, imageUrl: e.target.value }))}
           />
           {error && <p style={{ color: 'red' }}>{error}</p>}
-          <button onClick={handleAddPlace}>Добавить место</button>
+          <button onClick={handleSavePlace}>{currentPlace?.id ? 'Сохранить изменения' : 'Добавить место'}</button>
           <button onClick={handleCancelForm}>Отмена</button>
         </div>
       ) : (
@@ -118,11 +133,17 @@ const PlaceSection: React.FC<PlaceSectionProps> = ({ authorId, countryId, cityId
                   <button onClick={() => { onSelectPlace(place.id); onNextSection(); }}>
                     {place.name}
                   </button>
+                  <button onClick={() => handleEdit(place)}>Edit</button>
                 </li>
               ))
             )}
           </ul>
-          <button onClick={() => setShowForm(true)}>Добавить новый место</button>
+          <button onClick={() => {
+            setCurrentPlace(null);
+            setShowForm(true);
+          }}>
+            Добавить новое место
+          </button>
         </div>
       )}
     </div>
