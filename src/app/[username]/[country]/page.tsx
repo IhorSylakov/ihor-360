@@ -1,3 +1,4 @@
+import sanitizeHtml from 'sanitize-html';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from '../index.module.css';
@@ -42,7 +43,12 @@ export default async function CountryPage({ params }: UserCountryPage ) {
             </li>
           ))}
         </ul>
-        {/* <div dangerouslySetInnerHTML={{ __html: data.info.description }} /> */}
+        {data.info.description && (
+          <div
+            className={styles.Content}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.info.description) }}
+          />
+        )}
       </div>
     </div>
   );

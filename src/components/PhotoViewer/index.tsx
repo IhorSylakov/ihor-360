@@ -49,7 +49,7 @@ const PhotoViewer: React.FC<PhotoViewerProps> = ({ imageUrl, imagesList, contain
       ref={viewerRef}
       style={{
         height: containerHeight,
-        margin: '0 calc(-1 * var(--main-indents))'
+        margin: '0 calc(-1 * var(--landing-content-indents-px))'
       }}
     />
   );

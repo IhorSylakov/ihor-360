@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { collection, addDoc, getDocs, doc } from 'firebase/firestore';
+import { collection, doc, addDoc, getDocs, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import Editor from '../Editor';
 
 interface Country {
   id: string;
@@ -17,7 +18,7 @@ interface CountrySectionProps {
 
 const CountrySection: React.FC<CountrySectionProps> = ({ authorId, onSelectCountry, onNextSection }) => {
   const [countries, setCountries] = useState<Country[]>([]);
-  const [newCountry, setNewCountry] = useState({ name: '', visitDate: '', description: '' });
+  const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState('');
 
@@ -37,38 +38,46 @@ const CountrySection: React.FC<CountrySectionProps> = ({ authorId, onSelectCount
     fetchCountries();
   }, [authorId]);
 
-  const handleAddCountry = async () => {
+  const handleSaveCountry = async () => {
     setError('');
-    if (!/^[a-zA-Z ]+$/.test(newCountry.name)) {
+    if (!/^[a-zA-Z ]+$/.test(currentCountry?.name || '')) {
       setError('Название страны должно быть на английском языке.');
-      return;
-    }
-    if (!newCountry.visitDate) {
-      setError('Дата посещения обязательна.');
       return;
     }
 
 
     try {
-      const userCountriesRef = collection(doc(db, 'users', authorId), 'countries');
-      const docRef = await addDoc(userCountriesRef, newCountry);
-      const addedCountry = { id: docRef.id, ...newCountry };
+      if (currentCountry?.id) {
+        // Редактирование существующей страны
+        const countryRef = doc(db, 'users', authorId, `countries`, currentCountry.id);
+        const { ...countryData } = currentCountry;
+        await updateDoc(countryRef, countryData);
+        setCountries((prev) =>
+          prev.map((country) => (country.id === currentCountry.id ? { ...country, ...currentCountry } : country))
+        );
+      } else {
+        // Добавление новой страны
+        const userCountriesRef = collection(doc(db, 'users', authorId), `countries`);
+        const docRef = await addDoc(userCountriesRef, currentCountry);
+        setCountries([...countries, { id: docRef.id, ...currentCountry } as Country]);
+      }
 
-      setCountries([...countries, addedCountry]);
-      setNewCountry({ name: '', visitDate: '', description: '' });
       setShowForm(false);
-
-      onSelectCountry(docRef.id);
-      onNextSection();
+      setCurrentCountry(null);
     } catch (error) {
       console.error('Error adding country:', error);
       setError('Ошибка при добавлении страны.');
     }
   };
 
+  const handleEdit = (country: Country) => {
+    setCurrentCountry(country);
+    setShowForm(true);
+  };
+
   const handleCancelForm = () => {
     setShowForm(false);
-    setNewCountry({ name: '', visitDate: '', description: '' });
+    setCurrentCountry(null);
   };
 
   return (
@@ -80,22 +89,23 @@ const CountrySection: React.FC<CountrySectionProps> = ({ authorId, onSelectCount
           <input
             type="text"
             placeholder="Название страны"
-            value={newCountry.name}
-            onChange={(e) => setNewCountry({ ...newCountry, name: e.target.value })}
+            value={currentCountry?.name}
+            onChange={(e) => setCurrentCountry((prev) => ({ ...prev!, name: e.target.value }))}
           />
           <input
             type="date"
             placeholder="Дата посещения"
-            value={newCountry.visitDate}
-            onChange={(e) => setNewCountry({ ...newCountry, visitDate: e.target.value })}
+            value={currentCountry?.visitDate}
+            onChange={(e) => setCurrentCountry((prev) => ({ ...prev!, visitDate: e.target.value }))}
           />
-          <textarea
-            placeholder="Описание (необязательно)"
-            value={newCountry.description}
-            onChange={(e) => setNewCountry({ ...newCountry, description: e.target.value })}
+          <Editor
+            content={currentCountry?.description || ''}
+            onUpdate={(updatedContent) =>
+              setCurrentCountry((prev) => ({ ...prev!, description: updatedContent }))
+            }
           />
           {error && <p style={{ color: 'red' }}>{error}</p>}
-          <button onClick={handleAddCountry}>Добавить страну</button>
+          <button onClick={handleSaveCountry}>{currentCountry?.id ? 'Сохранить изменения' : 'Добавить страну'}</button>
           <button onClick={handleCancelForm}>Отмена</button>
         </div>
       ) : (
@@ -109,11 +119,17 @@ const CountrySection: React.FC<CountrySectionProps> = ({ authorId, onSelectCount
                   <button onClick={() => { onSelectCountry(country.id); onNextSection(); }}>
                     {country.name}
                   </button>
+                  <button onClick={() => handleEdit(country)}>Edit</button>
                 </li>
               ))
             )}
           </ul>
-          <button onClick={() => setShowForm(true)}>Добавить новую страну</button>
+          <button onClick={() => {
+            setCurrentCountry(null);
+            setShowForm(true);
+          }}>
+            Добавить новую страну
+          </button>
         </div>
       )}
     </div>

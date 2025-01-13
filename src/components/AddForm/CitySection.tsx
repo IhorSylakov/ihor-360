@@ -62,8 +62,6 @@ const CitySection: React.FC<CitySectionProps> = ({ authorId, countryId, onSelect
         const countryCitiesRef = collection(doc(db, 'users', authorId), `countries/${countryId}/cities`);
         const docRef = await addDoc(countryCitiesRef, currentCity);
         setCities([...cities, { id: docRef.id, ...currentCity } as City]);
-        onSelectCity(docRef.id);
-        onNextSection();
       }
       
       setShowForm(false);

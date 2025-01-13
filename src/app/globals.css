@@ -9,7 +9,6 @@
 
   --header-public-height: 50px;
   --header-height: 74px;
-  --main-indents: 20px;
   --border-radius: 5px;
   --public-notification-height: 0px;
   --landing-content-width: 1280px;
@@ -76,8 +75,9 @@ body {
 
 .page-content {
   width: 100%;
+  max-width: 1000px;
   margin-bottom: auto;
-  padding-top: var(--main-indents);
+  padding-top: var(--landing-content-indents-px);
   padding-inline: var(--landing-content-indents-px);
 }
 

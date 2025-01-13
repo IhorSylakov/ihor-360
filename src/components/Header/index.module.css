@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: space-between;
   height: var(--header-public-height);
-  padding: 0 var(--main-indents);
+  padding: 0 var(--landing-content-indents-px);
   z-index: 1;
   position: fixed;
   width: 100%;
