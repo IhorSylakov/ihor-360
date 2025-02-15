@@ -4,10 +4,10 @@ import LogoutButton from '@/components/LogoutButton';
 import styles from './index.module.css';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { useUser } from '@/context/UserContext';
+import { useUser } from '@/hooks/useUser';
 
 export default function HeaderClient() {
-  const { state } = useUser();
+  const { user } = useUser();
   const [ isMenuOpened, setIsMenuOpened] = useState<boolean>(false);
   const navRef = useRef<HTMLDivElement | null>(null);
 
@@ -32,7 +32,7 @@ export default function HeaderClient() {
     };
   }, [isMenuOpened]);
 
-  return state.username && (
+  return user && (
     <nav ref={navRef} className={styles.Nav}>
       <button
         onClick={handleOpenMenu}
@@ -46,26 +46,26 @@ export default function HeaderClient() {
       </button>
       { isMenuOpened && (
         <ul className={styles.NavList}>
-          {/* {state.username ? ( */}
+          {/* {user.username ? ( */}
             <>
               <li className={styles.NavItem}>
                 Привет, 
                 <Link
-                  href={`/${state.username}`}
+                  href={`/${user.username}`}
                 >
-                  {state.username}
+                  {user.username}
                 </Link>!
               </li>
               <li className={styles.NavItem}>
                 <Link
-                  href={`/${state.username}/settings`}
+                  href={`/${user.username}/settings`}
                 >
                   Settings
                 </Link>
               </li>
               <li className={styles.NavItem}>
                 <Link
-                  href={`/${state.username}/add-photo`}
+                  href={`/${user.username}/add-photo`}
                 >
                   Add Photo
                 </Link>

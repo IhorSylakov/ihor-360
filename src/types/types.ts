@@ -8,29 +8,37 @@ export interface UserData {
 export interface Country {
   id: string;
   name: string;
+  description?: string;
+  visitDate?: string;
 }
 
 export interface City {
   id: string;
   name: string;
-  imageUrl: string;
+  description?: string;
+  visitDate?: string;
+  notes?: string;
+  imageUrl?: string;
 }
 
 export interface Place {
   id: string;
   name: string;
-  imageUrl: string;
+  description?: string;
+  visitDate?: string;
+  notes?: string;
+  imageUrl?: string;
 }
 
 export interface Photo {
-  id: string;
+  id?: string;
   imageUrl: string;
-  previewUrl: string;
-  title: string;
   isHidden: boolean;
   isPano: boolean;
-  likes?: number;
+  name?: string;
   description?: string;
+  previewUrl?: string;
+  order: number;
 }
 
 export interface listItem {

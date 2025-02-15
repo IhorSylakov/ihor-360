@@ -1,16 +1,7 @@
-import { auth } from '@/lib/firebase';
-import { signOut } from 'firebase/auth';
-import { useUser } from '@/context/UserContext';
-
 export default function LogoutButton() {
-  const { dispatch } = useUser();
-
   const handleLogout = async () => {
     try {
-      await signOut(auth);
-      dispatch({type: 'CLEAR_USER'});
-      sessionStorage.removeItem('user');
-
+      await fetch('/api/auth/logout', { method: 'POST' });
       window.location.href = '/login';
     } catch (error) {
       console.error('Ошибка при выходе:', error);

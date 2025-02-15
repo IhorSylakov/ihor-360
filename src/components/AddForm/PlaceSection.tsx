@@ -1,26 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { collection, doc, getDocs, updateDoc, addDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 import Editor from '../Editor';
-
-interface Place {
-  id: string;
-  name: string;
-  description?: string;
-  visitDate?: string;
-  notes?: string;
-  imageUrl?: string;
-}
+import { Place } from '@/types/types';
 
 interface PlaceSectionProps {
-  authorId: string;
-  cityId: string;
   countryId: string;
+  cityId: string;
   onSelectPlace: (placeId: string) => void;
   onNextSection: () => void;
 }
 
-const PlaceSection: React.FC<PlaceSectionProps> = ({ authorId, countryId, cityId, onSelectPlace, onNextSection }) => {
+const PlaceSection: React.FC<PlaceSectionProps> = ({ countryId, cityId, onSelectPlace, onNextSection }) => {
   const [places, setPlaces] = useState<Place[]>([]);
   const [currentPlace, setCurrentPlace] = useState<Place | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -29,18 +18,18 @@ const PlaceSection: React.FC<PlaceSectionProps> = ({ authorId, countryId, cityId
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
-        const cityPlacesRef = collection(doc(db, 'users', authorId), `countries/${countryId}/cities/${cityId}/places`);
-        const querySnapshot = await getDocs(cityPlacesRef);
-        const fetchedPlaces = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Place));
-        setPlaces(fetchedPlaces);
+        const res = await fetch(`/api/places?countryId=${countryId}&cityId=${cityId}`);
+        if (!res.ok) throw new Error('Ошибка при загрузке мест');
+        const data = await res.json();
+        setPlaces(data);
       } catch (error) {
-        console.error('Error fetching places:', error);
+        console.error(error);
         setError('Ошибка при загрузке мест.');
       }
     };
 
     fetchPlaces();
-  }, [authorId, countryId, cityId]);
+  }, [countryId, cityId]);
 
   const handleSavePlace = async () => {
     setError('');
@@ -50,25 +39,28 @@ const PlaceSection: React.FC<PlaceSectionProps> = ({ authorId, countryId, cityId
     }
 
     try {
-      if (currentPlace?.id) {
-        // Редактирование существующего места
-        const placeRef = doc(db, 'users', authorId, `countries/${countryId}/cities/${cityId}/places`, currentPlace.id);
-        const { ...placeData } = currentPlace;
-        await updateDoc(placeRef, placeData);
-        setPlaces((prev) =>
-          prev.map((place) => (place.id === currentPlace.id ? { ...place, ...currentPlace } : place))
-        );
-      } else {
-        // Добавление нового места
-        const cityPlacesRef = collection(doc(db, 'users', authorId), `countries/${countryId}/cities/${cityId}/places`);
-        const docRef = await addDoc(cityPlacesRef, currentPlace);
-        setPlaces([...places, { id: docRef.id, ...currentPlace } as Place]);
-      }
+      const method = currentPlace?.id ? 'PUT' : 'POST';
+      const url = currentPlace?.id ? `/api/places/${currentPlace.id}` : '/api/places';
+
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...currentPlace, countryId, cityId }),
+      });
+
+      if (!res.ok) throw new Error('Ошибка при сохранении места');
+
+      const savedPlace = await res.json();
+      setPlaces((prev) =>
+        prev.some((p) => p.id === savedPlace.id)
+          ? prev.map((p) => (p.id === savedPlace.id ? savedPlace : p))
+          : [...prev, savedPlace]
+      );
 
       setShowForm(false);
       setCurrentPlace(null);
     } catch (error) {
-      console.error('Error saving place:', error);
+      console.error(error);
       setError('Ошибка при сохранении места.');
     }
   };

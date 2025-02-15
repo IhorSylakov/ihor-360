@@ -1,10 +1,7 @@
 'use client';
 
+import { AuthError } from 'firebase/auth';
 import { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword, AuthError } from 'firebase/auth';
-import { collection, query, where, getDocs, setDoc, doc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import { useUser } from '@/context/UserContext';
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
@@ -12,7 +9,6 @@ export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { dispatch } = useUser();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,29 +16,18 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const q = query(collection(db, 'users'), where('username', '==', username));
-      const querySnapshot = await getDocs(q);
-      if (!querySnapshot.empty) {
-        throw new Error('Username уже используется');
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, username }),
+      });
+
+      if (!res.ok) {
+        const { error } = await res.json();
+        throw new Error(error || 'Ошибка регистрации');
       }
-      const auth = getAuth();
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      await setDoc(doc(db, 'users', user.uid), {
-        uid: user.uid,
-        email,
-        username,
-      });
 
-      dispatch({
-        type: 'SET_USER',
-        payload: {
-          uid: user.uid,
-          username,
-          email,
-        },
-      });
-
+      // Перенаправляем пользователя после успешной регистрации
       window.location.href = `/${username}`;
     } catch (error) {
       const firebaseError = error as AuthError;

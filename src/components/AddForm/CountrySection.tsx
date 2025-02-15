@@ -1,22 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { collection, doc, addDoc, getDocs, updateDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 import Editor from '../Editor';
-
-interface Country {
-  id: string;
-  name: string;
-  description?: string;
-  visitDate: string;
-}
+import { Country } from '@/types/types';
 
 interface CountrySectionProps {
-  authorId: string;
   onSelectCountry: (countryId: string) => void;
   onNextSection: () => void;
 }
 
-const CountrySection: React.FC<CountrySectionProps> = ({ authorId, onSelectCountry, onNextSection }) => {
+const CountrySection: React.FC<CountrySectionProps> = ({ onSelectCountry, onNextSection }) => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -25,18 +16,18 @@ const CountrySection: React.FC<CountrySectionProps> = ({ authorId, onSelectCount
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const userCountriesRef = collection(doc(db, 'users', authorId), 'countries');
-        const querySnapshot = await getDocs(userCountriesRef);
-        const userCountries = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Country));
-        setCountries(userCountries);
+        const res = await fetch('/api/countries');
+        if (!res.ok) throw new Error('Ошибка при загрузке стран');
+        const data = await res.json();
+        setCountries(data);
       } catch (error) {
-        console.error('Error fetching countries:', error);
+        console.error(error);
         setError('Ошибка при загрузке стран.');
       }
     };
 
     fetchCountries();
-  }, [authorId]);
+  }, []);
 
   const handleSaveCountry = async () => {
     setError('');
@@ -45,28 +36,30 @@ const CountrySection: React.FC<CountrySectionProps> = ({ authorId, onSelectCount
       return;
     }
 
-
     try {
-      if (currentCountry?.id) {
-        // Редактирование существующей страны
-        const countryRef = doc(db, 'users', authorId, `countries`, currentCountry.id);
-        const { ...countryData } = currentCountry;
-        await updateDoc(countryRef, countryData);
-        setCountries((prev) =>
-          prev.map((country) => (country.id === currentCountry.id ? { ...country, ...currentCountry } : country))
-        );
-      } else {
-        // Добавление новой страны
-        const userCountriesRef = collection(doc(db, 'users', authorId), `countries`);
-        const docRef = await addDoc(userCountriesRef, currentCountry);
-        setCountries([...countries, { id: docRef.id, ...currentCountry } as Country]);
-      }
+      const method = currentCountry?.id ? 'PUT' : 'POST';
+      const url = currentCountry?.id ? `/api/countries/${currentCountry.id}` : '/api/countries';
+
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(currentCountry),
+      });
+
+      if (!res.ok) throw new Error('Ошибка при сохранении страны');
+
+      const savedCountry = await res.json();
+      setCountries((prev) =>
+        prev.some((c) => c.id === savedCountry.id)
+          ? prev.map((c) => (c.id === savedCountry.id ? savedCountry : c))
+          : [...prev, savedCountry]
+      );
 
       setShowForm(false);
       setCurrentCountry(null);
     } catch (error) {
-      console.error('Error adding country:', error);
-      setError('Ошибка при добавлении страны.');
+      console.error(error);
+      setError('Ошибка при сохранении страны.');
     }
   };
 
@@ -89,13 +82,13 @@ const CountrySection: React.FC<CountrySectionProps> = ({ authorId, onSelectCount
           <input
             type="text"
             placeholder="Название страны"
-            value={currentCountry?.name}
+            value={currentCountry?.name || ''}
             onChange={(e) => setCurrentCountry((prev) => ({ ...prev!, name: e.target.value }))}
           />
           <input
             type="date"
             placeholder="Дата посещения"
-            value={currentCountry?.visitDate}
+            value={currentCountry?.visitDate || ''}
             onChange={(e) => setCurrentCountry((prev) => ({ ...prev!, visitDate: e.target.value }))}
           />
           <Editor

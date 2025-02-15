@@ -1,25 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { collection, doc, addDoc, getDocs, updateDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 import Editor from '../Editor';
-
-interface City {
-  id: string;
-  name: string;
-  description?: string;
-  visitDate?: string;
-  notes?: string;
-  imageUrl?: string;
-}
+import { City } from '@/types/types';
 
 interface CitySectionProps {
-  authorId: string;
   countryId: string;
   onSelectCity: (cityId: string) => void;
   onNextSection: () => void;
 }
 
-const CitySection: React.FC<CitySectionProps> = ({ authorId, countryId, onSelectCity, onNextSection }) => {
+const CitySection: React.FC<CitySectionProps> = ({ countryId, onSelectCity, onNextSection }) => {
   const [cities, setCities] = useState<City[]>([]);
   const [currentCity, setCurrentCity] = useState<City | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -28,18 +17,18 @@ const CitySection: React.FC<CitySectionProps> = ({ authorId, countryId, onSelect
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const countryCitiesRef = collection(doc(db, 'users', authorId), `countries/${countryId}/cities`);
-        const querySnapshot = await getDocs(countryCitiesRef);
-        const fetchedCities = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as City));
-        setCities(fetchedCities);
+        const res = await fetch(`/api/cities?countryId=${countryId}`);
+        if (!res.ok) throw new Error('Ошибка при загрузке городов');
+        const data = await res.json();
+        setCities(data);
       } catch (error) {
-        console.error('Error fetching cities:', error);
+        console.error(error);
         setError('Ошибка при загрузке городов.');
       }
     };
 
     fetchCities();
-  }, [authorId, countryId]);
+  }, [countryId]);
 
   const handleSaveCity = async () => {
     setError('');
@@ -49,26 +38,29 @@ const CitySection: React.FC<CitySectionProps> = ({ authorId, countryId, onSelect
     }
 
     try {
-      if (currentCity?.id) {
-        // Редактирование существующего города
-        const placeRef = doc(db, 'users', authorId, `countries/${countryId}/cities`, currentCity.id);
-        const { ...placeData } = currentCity;
-        await updateDoc(placeRef, placeData);
-        setCities((prev) =>
-          prev.map((place) => (place.id === currentCity.id ? { ...place, ...currentCity } : place))
-        );
-      } else {
-        // Добавление нового города
-        const countryCitiesRef = collection(doc(db, 'users', authorId), `countries/${countryId}/cities`);
-        const docRef = await addDoc(countryCitiesRef, currentCity);
-        setCities([...cities, { id: docRef.id, ...currentCity } as City]);
-      }
-      
+      const method = currentCity?.id ? 'PUT' : 'POST';
+      const url = currentCity?.id ? `/api/cities/${currentCity.id}` : '/api/cities';
+
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...currentCity, countryId }),
+      });
+
+      if (!res.ok) throw new Error('Ошибка при сохранении города');
+
+      const savedCity = await res.json();
+      setCities((prev) =>
+        prev.some((c) => c.id === savedCity.id)
+          ? prev.map((c) => (c.id === savedCity.id ? savedCity : c))
+          : [...prev, savedCity]
+      );
+
       setShowForm(false);
       setCurrentCity(null);
     } catch (error) {
-      console.error('Error adding city:', error);
-      setError('Ошибка при добавлении города.');
+      console.error(error);
+      setError('Ошибка при сохранении города.');
     }
   };
 
@@ -91,7 +83,7 @@ const CitySection: React.FC<CitySectionProps> = ({ authorId, countryId, onSelect
           <input
             type="text"
             placeholder="Название города"
-            value={currentCity?.name}
+            value={currentCity?.name || ''}
             onChange={(e) => setCurrentCity((prev) => ({ ...prev!, name: e.target.value }))}
           />
           <Editor
@@ -103,18 +95,18 @@ const CitySection: React.FC<CitySectionProps> = ({ authorId, countryId, onSelect
           <input
             type="date"
             placeholder="Дата посещения (необязательно)"
-            value={currentCity?.visitDate}
+            value={currentCity?.visitDate || ''}
             onChange={(e) => setCurrentCity((prev) => ({ ...prev!, visitDate: e.target.value }))}
           />
           <textarea
             placeholder="Заметки (необязательно)"
-            value={currentCity?.notes}
+            value={currentCity?.notes || ''}
             onChange={(e) => setCurrentCity((prev) => ({ ...prev!, notes: e.target.value }))}
           />
           <input
             type="text"
             placeholder="Ссылка на изображение (необязательно)"
-            value={currentCity?.imageUrl}
+            value={currentCity?.imageUrl || ''}
             onChange={(e) => setCurrentCity((prev) => ({ ...prev!, imageUrl: e.target.value }))}
           />
           {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -125,8 +117,8 @@ const CitySection: React.FC<CitySectionProps> = ({ authorId, countryId, onSelect
         <div>
           <ul>
             {cities.length === 0 ? (
-                <p>Нет доступных городов. Добавьте новый город.</p>
-              ) : (
+              <p>Нет доступных городов. Добавьте новый город.</p>
+            ) : (
               cities.map((city) => (
                 <li key={city.id}>
                   <button onClick={() => { onSelectCity(city.id); onNextSection(); }}>

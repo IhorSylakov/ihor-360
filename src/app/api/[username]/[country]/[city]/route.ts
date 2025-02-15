@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { collection, getDocs, doc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { adminDb } from '@/lib/firebaseAdmin';
 import { findCityId, findCountryId, findUserId, getCityInfo } from '@/lib/firebaseHelpers';
 
 interface RouteParams {
@@ -30,13 +29,21 @@ export async function GET(request: Request, { params }: RouteParams) {
       return NextResponse.json({ error: 'City not found' }, { status: 404 });
     }
     
-    const info = await getCityInfo(userId, countryId, cityId)
+    const info = await getCityInfo(userId, countryId, cityId);
     if (!info) {
-      return NextResponse.json({ error: 'Place info not found' }, { status: 404 });
+      return NextResponse.json({ error: 'City info not found' }, { status: 404 });
     }
 
-    const placesRef = collection(doc(db, `users/${userId}/countries/${countryId}/cities/${cityId}`), 'places');
-    const snapshot = await getDocs(placesRef);
+    // ✅ Используем `adminDb` вместо `db`
+    const snapshot = await adminDb
+      .collection('users')
+      .doc(userId)
+      .collection('countries')
+      .doc(countryId)
+      .collection('cities')
+      .doc(cityId)
+      .collection('places')
+      .get();
 
     const places = snapshot.docs.map((doc) => ({
       id: doc.id,
