@@ -1,38 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { collection, addDoc, getDocs, doc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import { Photo } from "@/types/types";
 
 interface PhotoSectionProps {
-  authorId: string;
   countryId: string;
   cityId: string;
   placeId: string;
 }
 
-const PhotoSection: React.FC<PhotoSectionProps> = ({ authorId, countryId, cityId, placeId }) => {
+const PhotoSection: React.FC<PhotoSectionProps> = ({ countryId, cityId, placeId }) => {
   const [photosLength, setPhotosLength] = useState<number>(0);
-  const [newPhoto, setNewPhoto] = useState({ imageUrl: '', isHidden: false, isPano: true, name: '', description: '', previewUrl: '' });
-  const [uploadMethod, setUploadMethod] = useState<'cloudinary' | 'manual'>('cloudinary');
+  const [newPhoto, setNewPhoto] = useState<Photo>({
+    imageUrl: "",
+    isHidden: false,
+    isPano: true,
+    name: "",
+    description: "",
+    previewUrl: "",
+    order: 0,
+  });
+  const [uploadMethod, setUploadMethod] = useState<"cloudinary" | "manual" | "googleDrive">("googleDrive");
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    const fetchPhotos = async () => {
+    const fetchPhotosCount = async () => {
       try {
-        const photosRef = collection(doc(db, 'users', authorId), `countries/${countryId}/cities/${cityId}/places/${placeId}/photos`);
-        const querySnapshot = await getDocs(photosRef);
-        const fetchedPhotos = querySnapshot.docs.length;
-        setPhotosLength(fetchedPhotos);
+        const res = await fetch(`/api/photos?countryId=${countryId}&cityId=${cityId}&placeId=${placeId}`);
+        if (!res.ok) throw new Error("Ошибка при загрузке количества фотографий");
+        const data = await res.json();
+        await console.log(data)
+        await setPhotosLength(data.length);
       } catch (error) {
-        console.error('Error fetching photos:', error);
-        setError('Ошибка при загрузке фотографий.');
+        console.error(error);
+        setError("Ошибка при загрузке фотографий.");
       }
     };
 
-    fetchPhotos();
-  }, [authorId, countryId, cityId, placeId]);
+    fetchPhotosCount();
+  }, [countryId, cityId, placeId]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -43,49 +51,79 @@ const PhotoSection: React.FC<PhotoSectionProps> = ({ authorId, countryId, cityId
   const handleUpload = async () => {
     if (!image) return;
 
-    const formData = new FormData();
-    formData.append('file', image);
-
-    const response = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    });
-
     setLoading(true);
+    const formData = new FormData();
+    formData.append("file", image);
 
-    const data = await response.json();
-    if (response.ok) {
-      setNewPhoto({ ...newPhoto, imageUrl: data.url });
-    } else {
-      setError(data.error?.message || 'Ошибка при загрузке изображения.');
+    try {
+      let uploadUrl = "";
+
+      if (uploadMethod === "cloudinary") {
+        const response = await fetch("/api/upload", { method: "POST", body: formData });
+        const data = await response.json();
+        if (response.ok) {
+          uploadUrl = data.url;
+        } else {
+          throw new Error(data.error?.message || "Ошибка при загрузке на Cloudinary.");
+        }
+      } else if (uploadMethod === "googleDrive") {
+        const response = await fetch("/api/auth/googledrive/upload", { method: "POST", body: formData });
+        const data = await response.json();
+        if (response.ok) {
+          uploadUrl = data.imageUrl;
+        } else {
+          throw new Error(data.error?.message || "Ошибка при загрузке на Google Drive.");
+        }
+      }
+
+      setNewPhoto({ ...newPhoto, imageUrl: uploadUrl });
+    } catch (error) {
+      console.error(error);
+      setError("Ошибка при загрузке изображения.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleAddPhoto = async () => {
-    setError('');
+    setError("");
 
     if (!newPhoto.imageUrl) {
-      setError('Ссылка на изображение обязательна.');
+      setError("Ссылка на изображение обязательна.");
       return;
     }
 
     try {
-      const photosRef = collection(doc(db, 'users', authorId), `countries/${countryId}/cities/${cityId}/places/${placeId}/photos`);
       const nextOrder = photosLength + 1;
-      const photoData = {
-        ...newPhoto,
-        placeId,
-        order: nextOrder,
-      };
-      // const docRef = 
-      await addDoc(photosRef, photoData);
+      const photoData = { ...newPhoto, placeId, order: nextOrder, countryId, cityId };
 
-      // setPhotos([...photos, { id: docRef.id, ...photoData }]);
-      setNewPhoto({ imageUrl: '', isHidden: false, isPano: true, name: '', description: '', previewUrl: '' });
+      const res = await fetch("/api/photos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(photoData),
+      });
+
+      if (!res.ok) throw new Error("Ошибка при добавлении фото");
+
+      setNewPhoto({
+        imageUrl: "",
+        isHidden: false,
+        isPano: true,
+        name: "",
+        description: "",
+        previewUrl: "",
+        order: 0,
+      });
+      setPhotosLength(nextOrder);
+
+      // Очистка инпута после добавления фото
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+      setImage(null); // Очищаем состояние файла
     } catch (error) {
-      console.error('Error adding photo:', error);
-      setError('Ошибка при добавлении фотографии.');
+      console.error(error);
+      setError("Ошибка при добавлении фотографии.");
     }
   };
 
@@ -97,9 +135,18 @@ const PhotoSection: React.FC<PhotoSectionProps> = ({ authorId, countryId, cityId
         <label>
           <input
             type="radio"
+            value="googleDrive"
+            checked={uploadMethod === "googleDrive"}
+            onChange={() => setUploadMethod("googleDrive")}
+          />
+          Загрузить в Google Drive
+        </label>
+        <label>
+          <input
+            type="radio"
             value="cloudinary"
-            checked={uploadMethod === 'cloudinary'}
-            onChange={() => setUploadMethod('cloudinary')}
+            checked={uploadMethod === "cloudinary"}
+            onChange={() => setUploadMethod("cloudinary")}
           />
           Загрузить на Cloudinary
         </label>
@@ -107,30 +154,18 @@ const PhotoSection: React.FC<PhotoSectionProps> = ({ authorId, countryId, cityId
           <input
             type="radio"
             value="manual"
-            checked={uploadMethod === 'manual'}
-            onChange={() => setUploadMethod('manual')}
+            checked={uploadMethod === "manual"}
+            onChange={() => setUploadMethod("manual")}
           />
           Вставить URL вручную
         </label>
       </div>
-      
+
       <div>
-        {newPhoto.imageUrl &&
-          <Image
-            width={100}
-            height={30}
-            style={{ objectFit: 'cover' }}
-            alt=""
-            src={newPhoto.imageUrl}
-          />
-        }
-        {uploadMethod === 'cloudinary' ? (
-          <div>
-            <input type="file" onChange={handleFileChange} disabled={loading} />
-            <button onClick={handleUpload}>Upload</button>
-            {loading && <p>Загрузка...</p>}
-          </div>
-        ) : (
+        {newPhoto.imageUrl && (
+          <Image width={100} height={30} style={{ objectFit: "cover" }} alt="" src={newPhoto.imageUrl} />
+        )}
+        {uploadMethod === "manual" ? (
           <div>
             <input
               type="text"
@@ -138,6 +173,17 @@ const PhotoSection: React.FC<PhotoSectionProps> = ({ authorId, countryId, cityId
               value={newPhoto.imageUrl}
               onChange={(e) => setNewPhoto({ ...newPhoto, imageUrl: e.target.value })}
             />
+          </div>
+        ) : (
+          <div>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              disabled={loading}
+            />
+            <button onClick={handleUpload} disabled={loading}>Загрузить</button>
+            {loading && <p>Загрузка...</p>}
           </div>
         )}
       </div>
@@ -157,7 +203,7 @@ const PhotoSection: React.FC<PhotoSectionProps> = ({ authorId, countryId, cityId
             checked={newPhoto.isPano}
             onChange={(e) => setNewPhoto({ ...newPhoto, isPano: e.target.checked })}
           />
-          is it pano?
+          Панорамное фото?
         </label>
         <input
           type="text"
@@ -176,8 +222,13 @@ const PhotoSection: React.FC<PhotoSectionProps> = ({ authorId, countryId, cityId
           value={newPhoto.previewUrl}
           onChange={(e) => setNewPhoto({ ...newPhoto, previewUrl: e.target.value })}
         />
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button onClick={handleAddPhoto}>Добавить фото</button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <button
+          onClick={handleAddPhoto}
+          disabled={!newPhoto.imageUrl && loading}
+        >
+          Добавить фото
+        </button>
       </div>
     </div>
   );

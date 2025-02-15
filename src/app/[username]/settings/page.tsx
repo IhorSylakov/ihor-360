@@ -5,12 +5,12 @@ import { collection, query, where, getDocs, addDoc, doc } from 'firebase/firesto
 import { db } from '@/lib/firebase';
 import { UserData } from '@/types/types';
 import { useParams } from 'next/navigation';
-import { useUser } from '@/context/UserContext';
+import { useUser } from '@/hooks/useUser';
+import Storages from '@/components/Storages';
 
 export default function SettingsPage() {
   const { username } = useParams() as { username: string };
-  const { state } = useUser();
-  const userId = state.uid;
+  const { user } = useUser();
   const [userData, setUserData] = useState<UserData | null>(null);
 
   const [file, setFile] = useState<File | null>(null);
@@ -51,7 +51,7 @@ export default function SettingsPage() {
     }
   };
 
-  const handleUpload = async (asdf: string) => {
+  const handleUpload = async (userUid: string) => {
     if (!file) {
       setError('Выберите файл.');
       return;
@@ -66,7 +66,7 @@ export default function SettingsPage() {
       const jsonData = JSON.parse(fileContent);
       console.log(jsonData);
       for (const country of jsonData) {
-        const countryRef = await addDoc(collection(doc(db, 'users', asdf), 'countries'), {
+        const countryRef = await addDoc(collection(doc(db, 'users', userUid), 'countries'), {
           name: country.name,
           visitDate: country.visitDate,
         });
@@ -105,7 +105,7 @@ export default function SettingsPage() {
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(`/api/backup?userId=${userId}`);
+      const response = await fetch(`/api/backup?userId=${user?.uid}`);
 
       if (!response.ok) {
         throw new Error('Ошибка при загрузке данных.');
@@ -127,30 +127,37 @@ export default function SettingsPage() {
     }
   };
 
-  if (!userId) return <p>You are not logged in!</p>;
+  if (!user) return <p>You are not logged in!</p>;
 
   return (
-    <div>
-      <h1>Settings</h1>
-      <br />
-      <br />
-      <pre>{JSON.stringify(userData, null, 2)}</pre>
-      <br />
-      <br />
-      <h2>Загрузить данные</h2>
-      <input type="file" accept="application/json" onChange={handleFileChange} />
-      <button onClick={() => handleUpload(userId)} disabled={loading}>
-        Загрузить
-      </button>
-      {loading && <p>Загрузка...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>Данные успешно загружены!</p>}
-      <br />
-      <br />
-      <h2>Скачать данные</h2>
-      <button onClick={handleDownload}>
-        Скачать
-      </button>
+    <div className="page">
+      <div className="page-content">
+        <h1>Settings</h1>
+        <section>
+          <pre>{JSON.stringify(userData, null, 2)}</pre>
+        </section>
+        <section>
+          <h2>Загрузить данные</h2>
+          <input type="file" accept="application/json" onChange={handleFileChange} />
+          <button onClick={() => handleUpload(user?.uid)} disabled={loading}>
+            Загрузить
+          </button>
+          {loading && <p>Загрузка...</p>}
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {success && <p style={{ color: 'green' }}>Данные успешно загружены!</p>}
+        </section>
+        <section>
+          <h2>Скачать данные</h2>
+          <button onClick={handleDownload}>
+            Скачать
+          </button>
+        </section>
+        <section>
+          <h2>Выбор хранилища</h2>
+          <Storages />
+        </section>
+        <section></section>
+      </div>
     </div>
   );
 }

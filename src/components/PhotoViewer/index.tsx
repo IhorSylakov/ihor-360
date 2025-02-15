@@ -22,6 +22,7 @@ const PhotoViewer: React.FC<PhotoViewerProps> = ({ imageUrl, imagesList, contain
     const viewer = new Viewer({
       container: viewerRef.current,
       panorama: imageUrl,
+      moveSpeed: 2,
       plugins: [
         [GalleryPlugin, {
           visibleOnLoad: true,
@@ -46,6 +47,7 @@ const PhotoViewer: React.FC<PhotoViewerProps> = ({ imageUrl, imagesList, contain
 
   return (
     <div
+      key={imageUrl}
       ref={viewerRef}
       style={{
         height: containerHeight,

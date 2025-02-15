@@ -1,8 +1,8 @@
 import sanitizeHtml from 'sanitize-html';
 import Image from 'next/image';
-import PhotoViewer from '@/components/PhotoViewer';
 import { Photo } from '@/types/types';
 import styles from '../../../index.module.css';
+import { lazy, Suspense } from 'react';
 
 interface UserPlacePage {
   params: Promise<{
@@ -12,6 +12,8 @@ interface UserPlacePage {
     place: string;
   }>;
 }
+
+const PhotoViewer = lazy(() => import ('@/components/PhotoViewer'))
 
 export default async function PlacePage({ params }: UserPlacePage ) {
   const { username, country, city, place } = await params;
@@ -23,19 +25,34 @@ export default async function PlacePage({ params }: UserPlacePage ) {
 
   const data = await res.json();
 
-  const panoPhotos = await data.photos.filter((photo: Photo) => photo.isPano)
-  const justPhotos = await data.photos.filter((photo: Photo) => !photo.isPano)
+  const panoPhotos = await data.photos.filter((photo: Photo) => photo.isPano);
+  const justPhotos = await data.photos.filter((photo: Photo) => !photo.isPano);
 
   return (
     <div className="page">
       <div className="page-content">
         <h1>{data.info.name}</h1>
         {panoPhotos.length > 0 && (
-          <PhotoViewer
-            imageUrl={panoPhotos[0].imageUrl}
-            imagesList={panoPhotos}
-            containerHeight='400px'
-          />
+          <Suspense fallback={(
+            <p
+              style={{
+                height: '500px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                background: 'pink',
+                margin: '0 calc(-1 * var(--landing-content-indents-px))'
+              }}
+            >
+              loading...
+            </p>
+          )}>
+            <PhotoViewer
+              imageUrl={panoPhotos[0].imageUrl}
+              imagesList={panoPhotos}
+              containerHeight='500px'
+            />
+          </Suspense>
         )}
         {justPhotos.length > 0 && (
           <ul>

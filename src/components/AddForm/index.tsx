@@ -6,11 +6,7 @@ import CitySection from './CitySection';
 import PlaceSection from './PlaceSection';
 import PhotoSection from './PhotoSection';
 
-interface AddFormProps {
-  authorId: string;
-}
-
-const AddForm: React.FC<AddFormProps> = ({ authorId }) => {
+const AddForm: React.FC = () => {
   const [currentSection, setCurrentSection] = useState<number>(1);
   const [selectedCountryId, setSelectedCountryId] = useState<string | null>(null);
   const [selectedCityId, setSelectedCityId] = useState<string | null>(null);
@@ -37,7 +33,6 @@ const AddForm: React.FC<AddFormProps> = ({ authorId }) => {
     <div>
       {currentSection === 1 && (
         <CountrySection
-          authorId={authorId}
           onSelectCountry={handleCountrySelect}
           onNextSection={() => setCurrentSection(2)}
         />
@@ -45,7 +40,6 @@ const AddForm: React.FC<AddFormProps> = ({ authorId }) => {
 
       {currentSection === 2 && selectedCountryId && (
         <CitySection
-          authorId={authorId}
           countryId={selectedCountryId}
           onSelectCity={handleCitySelect}
           onNextSection={() => console.log('Next section (e.g., places)')}
@@ -54,7 +48,6 @@ const AddForm: React.FC<AddFormProps> = ({ authorId }) => {
 
       {currentSection === 3 && selectedCountryId && selectedCityId && (
         <PlaceSection
-          authorId={authorId}
           countryId={selectedCountryId}
           cityId={selectedCityId}
           onSelectPlace={handlePlaceSelect}
@@ -64,7 +57,6 @@ const AddForm: React.FC<AddFormProps> = ({ authorId }) => {
 
       {currentSection === 4 && selectedCountryId && selectedCityId && selectedPlaceId && (
         <PhotoSection
-          authorId={authorId}
           countryId={selectedCountryId}
           cityId={selectedCityId}
           placeId={selectedPlaceId}

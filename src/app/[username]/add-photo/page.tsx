@@ -21,7 +21,7 @@ export default function AddPhotoPage() {
     <div className="page">
       <div className="page-content">
         <h1>Добавить фотографию</h1>
-        <AddForm authorId={user.uid} />
+        <AddForm />
       </div>
     </div>
   );
